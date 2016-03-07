@@ -1,2 +1,2 @@
-# get_my_podcasts
+#Get My Podcasts
 Podcast aggregator built with PHP and Laravel
