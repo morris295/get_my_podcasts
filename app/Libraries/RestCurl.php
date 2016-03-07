@@ -4,6 +4,11 @@ namespace App\Libraries;
 
 use App\Libraries\ExternalService\ExternalResponse;
 
+/**
+ * PHP Rest CURL
+ * https://github.com/jmoraleda/php-rest-curl
+ * (c) 2014 Jordi Moraleda
+ */
 Class RestCurl {
 
 	private static $curl;

@@ -14,9 +14,9 @@ class MainController extends Controller {
 		$result = new SimpleXMLElement(
 				RestCurl::get("http://feeds.feedburner.com/SModcasts?format=xml")->getContent());
 		
-		FeedParser::parse($result);	
-	
-		var_dump($result);
+		FeedParser::parse($result);
+		
+		return view('index');
 	}
 	
 }
