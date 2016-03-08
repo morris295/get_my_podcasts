@@ -18,9 +18,9 @@
 		        </div>
 		        <div id="navbar" class="collapse navbar-collapse">
 		          <ul class="nav navbar-nav">
-		            <li class="active"><a href="#">Home</a></li>
-		            <li><a href="#about">About</a></li>
-		            <li><a href="#contact">Contact</a></li>
+		            <li class="active"><a href="{{URL::to('/')}}">Home</a></li>
+		            <li><a href="about">About</a></li>
+		            <li><a href="contact">Contact</a></li>
 		          </ul>
 		          <form class="navbar-form navbar-right">
 			          <div class="form-group">
@@ -38,5 +38,11 @@
 	        @yield('content')
 	      </div>
 	    </div>
+	   	@section('footer')
+	    <footer class="footer">
+	    	<div class="container">
+	    		<p class="text-muted">Get My Podcasts is provided completely free and is a labor of love.</p>
+	    	</div>
+	    </footer>
 	</body>
 </html>

@@ -15,6 +15,8 @@
     return view('welcome');
 });*/
 Route::get("/", "MainController@index");
+Route::get("/about", "MainController@about");
+Route::get("/contact", "MainController@contact");
 
 /*
 |--------------------------------------------------------------------------
