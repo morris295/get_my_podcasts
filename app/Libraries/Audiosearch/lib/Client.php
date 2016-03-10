@@ -18,14 +18,17 @@ class Audiosearch_Client {
     private $host;
     private $version = '1.0.1';
     private $user_agent = 'audiosearch-client-php';
+    private static $instance;
 
     /**
      *
      *
      * @param unknown $args (optional)
      */
-    public function __construct($args=array()) {
-        $client_key = isset($args['id'])
+    protected function __construct($args=array()) {
+    	
+    	//TODO: Remove/refactor this code.
+	   	/*$client_key = isset($args['id'])
             ? $args['id']
             : (
             isset($args['key'])
@@ -41,7 +44,11 @@ class Audiosearch_Client {
             getenv('AS_HOST')
             ? getenv('AS_HOST')
             : 'https://www.audiosear.ch'
-        );
+        );*/
+        
+        $client_key = "55388f355298550af1c51462af1198c45b38c626958bec58e4ac1e872dd2f8ca";
+    	$client_secret = "f315a0619e97b1cddeeb2daf96b336aa86ec1c697b8827928bd81cebeebaf63b";
+    	$this->host = "https://www.audiosear.ch";
 
         if (!$client_key or !$client_secret) {
             throw new Exception("Must define client key and secret");
@@ -60,6 +67,7 @@ class Audiosearch_Client {
         $this->agent->useragent = $this->user_agent . '/' . $this->version;
         $this->agent->headers['Authorization'] = "Bearer " . $this->access_token;
 
+        static::$instance = $this->agent;
     }
 
 
@@ -158,4 +166,14 @@ class Audiosearch_Client {
         return $this->get("/$type/$id/related", $params);
     }
 
+    /**
+     * Retrieve client instance.
+     */
+    public static function getInstance() {
+    	if (static::$instance == null) {
+    		static::$instance = new static();
+    	}
+    	
+    	return static::$instance;
+    }
 }

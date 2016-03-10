@@ -4,8 +4,8 @@
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>@yield('title')</title>
-		<link rel="stylesheet" type="text/css" href="../public/bower_components/bootstrap/dist/css/bootstrap.css" />
-		<link rel="stylesheet" type="text/css" href="../public/style/default.css" />
+		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/bower_components/bootstrap/dist/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/style/default.css" />
 	</head>
 	<body>
 		@section('navbar')
@@ -38,11 +38,11 @@
 	        @yield('content')
 	      </div>
 	    </div>
-	   	@section('footer')
+<!--	   	@section('footer')
 	    <footer class="footer">
 	    	<div class="container">
 	    		<p class="text-muted">Get My Podcasts is provided completely free and is a labor of love.</p>
 	    	</div>
-	    </footer>
+	    </footer>-->
 	</body>
 </html>
