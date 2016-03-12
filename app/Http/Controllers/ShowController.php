@@ -15,25 +15,32 @@ class ShowController extends Controller {
 	
 	public function getShow($id) {
 		$show = $this->audiosearchClient->get_show($id);
-		$image = $show["image_files"][0]["url"]["thumb"];
+		$image = $show["image_files"][0]["url"]["full"];
 		$episodes = [];
+		$totalEpisodes = count($show["episode_ids"]);
+		$filesToGet = ($totalEpisodes > 10) ? 10 : $totalEpisodes;
 		
-		for ($i = 0; $i<10; $i++) {
+		for ($i = 0; $i<$filesToGet; $i++) {
 			$episodeId = $show["episode_ids"][$i];
 			$episodeListing = $this->audiosearchClient->get_episode($episodeId);
-// 			echo "<pre>";
-// 			print_r($episodeListing);
-// 			echo "</pre>";
-// 			exit;
 			$episode = [
 				"title"=>$episodeListing["title"],
 				"description"=>$episodeListing["description"],
-				"source"=>$episodeListing["audio_files"][0]["url"][0]
+				"source"=>$episodeListing["audio_files"][0]["url"][0],
+				"episode_num"=>$i+1
 			];
 			array_push($episodes, $episode);
 		}
 		
 		return view("show", ["show" => $show, "image" => $image, "episodes" => $episodes]);
+	}
+	
+	private function saveShow() {
+		
+	}
+	
+	private function saveEpisodes() {
+		
 	}
 	
 }

@@ -18,6 +18,12 @@ Route::get("/", "MainController@index");
 Route::get("/about", "MainController@about");
 Route::get("/contact", "MainController@contact");
 Route::get("/shows/{id}", "ShowController@getShow");
+Route::get("/search", "MainController@search");
+
+Route::controllers([
+	'auth' => 'Auth\AuthController',
+	'password' => 'Auth\PasswordController'
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +38,10 @@ Route::get("/shows/{id}", "ShowController@getShow");
 
 Route::group(['middleware' => ['web']], function () {
     //
+});
+
+Route::group(['middleware' => 'web'], function () {
+    Route::auth();
+
+    Route::get('/home', 'HomeController@index');
 });

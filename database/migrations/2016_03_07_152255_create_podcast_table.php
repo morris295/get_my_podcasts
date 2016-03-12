@@ -16,14 +16,17 @@ class CreatePodcastTable extends Migration
             $table->increments('id');
             $table->string("title");
             $table->string("description");
-            $table->string("webMaster");
             $table->string("copyright");
             $table->string("subtitle");
-            $table->string("image_url");
-            $table->string("link");
+            $table->longText("image_url");
+            $table->string("resource");
             $table->string("author");
             $table->tinyInteger("explicit");
             $table->timestamp("last_published");
+            $table->integer("top_show");
+            $table->integer("tastemaker");
+            $table->timestamp("last_top_show_date");
+            $table->bigInteger("as_id");
             $table->timestamps();
         });
     }

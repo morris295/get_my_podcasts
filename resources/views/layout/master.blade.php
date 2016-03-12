@@ -14,11 +14,11 @@
 		        <div class="navbar-header">
 		          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 		          </button>
-		          <a class="navbar-brand" href="#">Get My Podcasts</a>
+		          <a class="navbar-brand" href="{{URL::to('/')}}">Get My Podcasts</a>
 		        </div>
 		        <div id="navbar" class="collapse navbar-collapse">
 		          <ul class="nav navbar-nav">
-		            <li class="active"><a href="{{URL::to('/')}}">Home</a></li>
+		            <li><a href="register">Sign Up</a></li>
 		            <li><a href="about">About</a></li>
 		            <li><a href="contact">Contact</a></li>
 		          </ul>
@@ -38,11 +38,8 @@
 	        @yield('content')
 	      </div>
 	    </div>
-<!--	   	@section('footer')
-	    <footer class="footer">
-	    	<div class="container">
-	    		<p class="text-muted">Get My Podcasts is provided completely free and is a labor of love.</p>
-	    	</div>
-	    </footer>-->
+	    @yield('footer')
+	    <script src="{{URL::to('/')}}/bower_components/jquery/dist/jquery.js"></script>
+	    <script src="{{URL::to('/')}}/audio.js"></script>
 	</body>
 </html>

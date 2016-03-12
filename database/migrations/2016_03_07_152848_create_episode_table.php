@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class CreateEpisodeTable extends Migration
 {
@@ -13,7 +14,8 @@ class CreateEpisodeTable extends Migration
     public function up()
     {
         Schema::create('episodes', function (Blueprint $table) {
-            $table->increments('id');
+            
+        	$table->increments('id');
             $table->string("title");
             $table->string("pubDate");
             $table->string("link");
@@ -23,9 +25,14 @@ class CreateEpisodeTable extends Migration
             $table->string("summary");
             $table->string("subtitle");
             $table->string("description");
-            $table->string("content_link");
+            $table->string("media_url");
+            $table->integer("podcast_id")->unsigned();
             $table->string("enclosure_link");
+            $table->integer("as_id");
             $table->timestamps();
+           
+            // Add foreign key referencing podcast ID.
+            $table->foreign("podcast_id")->references("id")->on("podcasts");
         });
     }
 
