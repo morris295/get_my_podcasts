@@ -6,6 +6,7 @@
 		<title>@yield('title')</title>
 		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/bower_components/bootstrap/dist/css/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/style/default.css" />
+		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/style/paper.css" />
 	</head>
 	<body>
 		@section('navbar')
