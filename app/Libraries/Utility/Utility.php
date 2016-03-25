@@ -21,14 +21,15 @@ class Utility {
 			$show = new Podcast();
 			$show->as_id = $podcastDetails["id"];
 			$show->title = $podcastDetails["title"];
-			$show->image_url = $podcastDetails["image_files"][0]["url"]["thumb"];
+			$image = isset($podcastDetails["image_files"][0]["url"]["thumb"]) ? $podcastDetails["image_files"][0]["url"]["thumb"] : "";
+			$show->image_url = $image;
 			$show->explicit = 0;
 			$show->last_published = date("Y-m-d H:i:s");
 			$show->top_show = 0;
 			$show->tastemaker = 1;
 			$show->resource = "shows/".$podcastDetails["id"];
 			$show->last_top_show_date = date("Y-m-d H:i:s");
-			$show->total_episodes = count($podcastDetails["episode_ids"]);
+			$show->total_episodes = isset($podcastDetails["episode_ids"])?count($podcastDetails["episode_ids"]):0;
 			$show->save();
 		} else {
 			Podcast::where("title", $podcastDetails["title"])->update(["last_top_show_date" => date("Y-m-d H:i:s")]);
