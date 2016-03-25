@@ -24,6 +24,7 @@
 		            <li><a href="contact">Contact</a></li>
 		          </ul>
 		          <form class="navbar-form navbar-right">
+		          	  {!! csrf_field() !!}
 			          <div class="form-group">
 			          	<input type="text" placeholder="EMail" class="form-control" />
 			          	<input type="text" placeholder="Password" class="form-control" />

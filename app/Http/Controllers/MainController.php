@@ -12,9 +12,13 @@ class MainController extends Controller {
 	private $audiosearchClient;
 	
 	public function __construct() {
+		//$this->middleware('auth');
 		$this->audiosearchClient = Audiosearch_Client::getInstance();
 	}
 	
+	/**
+	 * Return application main page.
+	 */
 	public function index() {
 		
 		$data = $this->getTopShows();
@@ -70,17 +74,7 @@ class MainController extends Controller {
 			
 			foreach($topShowsResponse["shows"] as $show) {
 				$showDetails = $this->audiosearchClient->get_show($show["id"]);
-				$podcast = new Podcast();
-				$podcast->as_id = $showDetails["id"];
-				$podcast->title = $showDetails["title"];
-				$podcast->image_url = $showDetails["image_files"][0]["url"]["thumb"];
-				$podcast->explicit = 0;
-				$podcast->last_published = date("Y-m-d H:i:s");
-				$podcast->top_show = 1;
-				$podcast->tastemaker = 0;
-				$podcast->last_top_show_date = date("Y-m-d H:i:s");
-				$podcast->resource = "shows/".$showDetails["id"];
-				$podcast->save();
+				$this->insertPodcast($showDetails);
 				$show = [
 						"as_id" => $showDetails["id"],
 						"title" => $showDetails["title"],
@@ -92,17 +86,7 @@ class MainController extends Controller {
 	
 			foreach($tastemakerResponse["results"] as $show) {
 				$showDetails = $this->audiosearchClient->get_show($show["id"]);
-				$podcast = new Podcast();
-				$podcast->as_id = $showDetails["id"];
-				$podcast->title = $showDetails["title"];
-				$podcast->image_url = $showDetails["image_files"][0]["url"]["thumb"];
-				$podcast->explicit = 0;
-				$podcast->last_published = date("Y-m-d H:i:s");
-				$podcast->top_show = 0;
-				$podcast->tastemaker = 1;
-				$podcast->resource = "shows/".$showDetails["id"];
-				$podcast->last_top_show_date = date("Y-m-d H:i:s");
-				$podcast->save();
+				$this->insertPodcast($showDetails);
 				$show = [
 						"as_id" => $showDetails["id"],
 						"title" => $showDetails["title"],
@@ -117,5 +101,31 @@ class MainController extends Controller {
 		}
 		
 		return ["topShows" => $topShows, "tastemakers" => $tastemakers];
+	}
+	
+	/**
+	 * Determine if podcast has already been saved, if so update the last top date.
+	 * If not, save it.
+	 * @param unknown $showDetails
+	 */
+	private function insertPodcast($showDetails) {
+		
+		$show = Podcast::where("title", $showDetails["title"])->first();
+		
+		if ($show === null) {
+			$show = new Podcast();
+			$show->as_id = $showDetails["id"];
+			$show->title = $showDetails["title"];
+			$show->image_url = $showDetails["image_files"][0]["url"]["thumb"];
+			$show->explicit = 0;
+			$show->last_published = date("Y-m-d H:i:s");
+			$show->top_show = 0;
+			$show->tastemaker = 1;
+			$show->resource = "shows/".$showDetails["id"];
+			$show->last_top_show_date = date("Y-m-d H:i:s");
+			$show->save();
+		} else {
+			Podcast::where("title", $showDetails["title"])->update(["last_top_show_date" => date("Y-m-d H:i:s")]);
+		}
 	}
 }
