@@ -29,7 +29,7 @@ class Utility {
 			$show->tastemaker = 1;
 			$show->resource = "shows/".$podcastDetails["id"];
 			$show->last_top_show_date = date("Y-m-d H:i:s");
-			$show->total_episodes = isset($podcastDetails["episode_ids"])?count($podcastDetails["episode_ids"]):0;
+			$show->total_episodes = isset($podcastDetails["episode_ids"])?count($podcastDetails["episode_ids"]):10;
 			$show->save();
 		} else {
 			Podcast::where("title", $podcastDetails["title"])->update(["last_top_show_date" => date("Y-m-d H:i:s")]);
