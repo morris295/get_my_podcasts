@@ -27,6 +27,7 @@ class CreatePodcastTable extends Migration
             $table->integer('tastemaker');
             $table->timestamp('last_top_show_date');
             $table->bigInteger('as_id');
+            $table->integer("total_episodes");
             $table->timestamps();
         });
     }

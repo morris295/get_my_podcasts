@@ -60,6 +60,14 @@ a:hover {
 	color: #337ab7;
 }
 
+.navbar-text.current-playing {
+	width: 20%;
+}
+
+.navbar-text.audio-control {
+	width: 50%;
+}
+
 audio {
-	width: 50em;	
+	width: 100%;	
 }

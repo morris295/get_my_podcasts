@@ -3,17 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Libraries\Audiosearch\lib\Audiosearch\Audiosearch_Client;
 use App\Model\Podcast;
 use Illuminate\Support\Facades\Input;
+use App\Libraries\Utility\Utility;
+use App\Libraries\Utility\ApiUtility;
 
 class MainController extends Controller {
 	
-	private $audiosearchClient;
-	
 	public function __construct() {
+		ApiUtility::init();
 		//$this->middleware('auth');
-		$this->audiosearchClient = Audiosearch_Client::getInstance();
 	}
 	
 	/**
@@ -34,15 +33,16 @@ class MainController extends Controller {
 		return view('contact');
 	}
 	
+	/**
+	 * Search for a podcast.
+	 */
 	public function search() {
 		$searchTerm = Input::get("term");
-		$response = $this->audiosearchClient->get("/search/shows/$searchTerm");
-		/*echo "<pre>";
-		print_r($response["results"]);
-		echo "</pre>";*/
+		$response = ApiUtility::getSearch($searchTerm);
 		$items = [];
 		
 		foreach ($response["results"] as $result) {
+			Utility::insertPodcast($result);
 			$item = [
 				"title" => $result["title"],
 				"description" => $result["description"],
@@ -66,15 +66,12 @@ class MainController extends Controller {
 			
 			$yesterday = date("Y-m-d",strtotime("yesterday"));
 			
-			$topShowsResponse = $this->audiosearchClient->get(
-					"chart_daily?start_date=$yesterday&limit=10&country=us");
-			$tastemakerResponse = $this->audiosearchClient->get_tastemakers(
-					["n"=>"10",
-					 "type"=>"shows"]);
+			$topShowsResponse = ApiUtility::getTopShows($yesterday);
+			$tastemakerResponse = ApiUtility::getTastemakers();
 			
 			foreach($topShowsResponse["shows"] as $show) {
-				$showDetails = $this->audiosearchClient->get_show($show["id"]);
-				$this->insertPodcast($showDetails);
+				$showDetails = ApiUtility::getPodcast($show["id"]);
+				Utility::insertPodcast($showDetails);
 				$show = [
 						"as_id" => $showDetails["id"],
 						"title" => $showDetails["title"],
@@ -85,8 +82,8 @@ class MainController extends Controller {
 			}
 	
 			foreach($tastemakerResponse["results"] as $show) {
-				$showDetails = $this->audiosearchClient->get_show($show["id"]);
-				$this->insertPodcast($showDetails);
+				$showDetails = ApiUtility::getPodcast($show["id"]);
+				Utility::insertPodcast($showDetails);
 				$show = [
 						"as_id" => $showDetails["id"],
 						"title" => $showDetails["title"],
@@ -101,31 +98,5 @@ class MainController extends Controller {
 		}
 		
 		return ["topShows" => $topShows, "tastemakers" => $tastemakers];
-	}
-	
-	/**
-	 * Determine if podcast has already been saved, if so update the last top date.
-	 * If not, save it.
-	 * @param unknown $showDetails
-	 */
-	private function insertPodcast($showDetails) {
-		
-		$show = Podcast::where("title", $showDetails["title"])->first();
-		
-		if ($show === null) {
-			$show = new Podcast();
-			$show->as_id = $showDetails["id"];
-			$show->title = $showDetails["title"];
-			$show->image_url = $showDetails["image_files"][0]["url"]["thumb"];
-			$show->explicit = 0;
-			$show->last_published = date("Y-m-d H:i:s");
-			$show->top_show = 0;
-			$show->tastemaker = 1;
-			$show->resource = "shows/".$showDetails["id"];
-			$show->last_top_show_date = date("Y-m-d H:i:s");
-			$show->save();
-		} else {
-			Podcast::where("title", $showDetails["title"])->update(["last_top_show_date" => date("Y-m-d H:i:s")]);
-		}
 	}
 }

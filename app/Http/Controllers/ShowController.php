@@ -3,32 +3,52 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Libraries\Audiosearch\lib\Audiosearch\Audiosearch_Client;
+use App\Libraries\Utility\Utility;
+use App\Libraries\Utility\ApiUtility;
+use App\Model\Episode;
+use App\Model\Podcast;
 
 class ShowController extends Controller {
 	
-	private $audiosearchClient;
-	
 	public function __construct() {
-		$this->audiosearchClient = Audiosearch_Client::getInstance();
+		ApiUtility::init();
 	}
 	
 	public function getShow($id) {
-		$show = $this->audiosearchClient->get_show($id);
-		$image = $show["image_files"][0]["url"]["full"];
+		
+		$show = Podcast::where("as_id", $id)->first();
+		$podcast = ApiUtility::getPodcast($id);
+		
+		if ($show === null) {
+			$show = Utility::insertPodcast($show);
+		}
+		
+		$podcastId = $show->id;
+		
+		$image = $podcast["image_files"][0]["url"]["full"];
 		$episodes = [];
-		$totalEpisodes = count($show["episode_ids"]);
+		$totalEpisodes = $show->total_episodes;
 		$filesToGet = ($totalEpisodes > 10) ? 10 : $totalEpisodes;
 		
 		for ($i = 0; $i<$filesToGet; $i++) {
-			$episodeId = $show["episode_ids"][$i];
-			$episodeListing = $this->audiosearchClient->get_episode($episodeId);
-			$episode = [
-				"title"=>$episodeListing["title"],
-				"description"=>$episodeListing["description"],
-				"source"=>$episodeListing["audio_files"][0]["url"][0],
-				"episode_num"=>$i+1
-			];
+			$episodeId = $podcast["episode_ids"][$i];
+			
+			$dbEpisode = Episode::where("as_id", $episodeId)->first();
+			$episode = null;
+			
+			if ($dbEpisode === null) {
+				$episodeListing = ApiUtility::getEpisode($episodeId);
+				$episode = Utility::insertEpisode($podcastId, $episodeListing);
+				$episode["episode_num"] = $i+1;
+			} else {
+				$episode = [
+					"title"=>$dbEpisode->title,
+					"description"=>$dbEpisode->description,
+					"source"=>$dbEpisode->source,
+					"episode_num"=>$i+1
+				];
+			}
+			
 			array_push($episodes, $episode);
 		}
 		
@@ -39,7 +59,7 @@ class ShowController extends Controller {
 		
 	}
 	
-	private function saveEpisodes() {
+	private function insertEpisode() {
 		
 	}
 	

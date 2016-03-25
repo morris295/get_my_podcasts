@@ -13,7 +13,7 @@ class Podcast extends Model
 		'title', 'description', 'copyright', 'subtitle',
 		'image_url', 'resource', 'media_file', 'author', 'explicit',
 		'last_published', 'top_show', 'last_top_show_date',
-		'as_id'
+		'as_id', 'total_episodes'
 	];
 	
 	protected $hidden = [

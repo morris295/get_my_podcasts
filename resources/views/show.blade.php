@@ -4,7 +4,7 @@
 
 @section('content')
 	<div class="jumbotron">
-		<image src="{{$image}}"/>
+		<image class="img-responsive" src="{{$image}}"/>
 		<p class="show-description"><h3>{{$show["description"]}}</h3></p>
 	</div>
 	<div class="col-md-12">
@@ -35,10 +35,10 @@
 @section('footer')
 <div class="navbar navbar-default navbar-fixed-bottom">
   <div class="container">
-    <span class="navbar-text" id="episode-playing-title">
+    <span class="navbar-text current-playing" id="episode-playing-title">
     	Nothing playing:
     </span>
-    <span class="navbar-text">
+    <span class="navbar-text audio-control">
     	<audio id="player" controls>
 			<source id="mpeg-source" src="" type="audio/mpeg">
 		</audio>
