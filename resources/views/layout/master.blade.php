@@ -23,14 +23,9 @@
 		            <li><a href="about">About</a></li>
 		            <li><a href="contact">Contact</a></li>
 		          </ul>
-		          <form class="navbar-form navbar-right">
-		          	  {!! csrf_field() !!}
-			          <div class="form-group">
-			          	<input type="text" placeholder="EMail" class="form-control" />
-			          	<input type="text" placeholder="Password" class="form-control" />
-			          	<button type="submit" class="btn btn-default">Sign In</button>
-			          </div>
-		          </form>
+		          <ul class="nav navbar-nav navbar-right">
+		          	  <li><a href="#">Login</a></li>
+		          </ul>
 		        </div>
 		      </div>
 		    </nav>

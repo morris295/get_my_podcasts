@@ -37,12 +37,12 @@ class MainController extends Controller {
 	 * Search for a podcast.
 	 */
 	public function search() {
+		
 		$searchTerm = Input::get("term");
 		$response = ApiUtility::getSearch($searchTerm);
 		$items = [];
 		
 		foreach ($response["results"] as $result) {
-			Utility::insertPodcast($result);
 			$item = [
 				"title" => $result["title"],
 				"description" => $result["description"],

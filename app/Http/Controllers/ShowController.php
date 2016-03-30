@@ -16,21 +16,32 @@ class ShowController extends Controller {
 	
 	public function getShow($id) {
 		
+		// Check if the podcast is in the DB.
 		$show = Podcast::where("as_id", $id)->first();
+		
+		// Retrieve podcast details from API.
 		$podcast = ApiUtility::getPodcast($id);
 		
+		// If the podcast is not in the DB
+		// save it in the DB.
 		if ($show === null) {
-			$show = Utility::insertPodcast($show);
+			$show = Utility::insertPodcast($podcast);
 		}
 		
+		// Get the id of the podcast.
 		$podcastId = $show->id;
 		
-		$image = $podcast["image_files"][0]["url"]["full"];
+		$image = ($show === null) ? $podcast["image_files"][0]["url"]["full"] : $show->image_url;
 		$episodes = [];
 		$totalEpisodes = $show->total_episodes;
 		$filesToGet = ($totalEpisodes > 10) ? 10 : $totalEpisodes;
 		
+		if ($totalEpisodes === 0) {
+			return view("show", ["show" => $show, "image" => $image, "episodes" => []]);
+		}
+		
 		for ($i = 0; $i<$filesToGet; $i++) {
+			
 			$episodeId = $podcast["episode_ids"][$i];
 			
 			$dbEpisode = Episode::where("as_id", $episodeId)->first();
@@ -54,13 +65,4 @@ class ShowController extends Controller {
 		
 		return view("show", ["show" => $show, "image" => $image, "episodes" => $episodes]);
 	}
-	
-	private function saveShow() {
-		
-	}
-	
-	private function insertEpisode() {
-		
-	}
-	
 }
