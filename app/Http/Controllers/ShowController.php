@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Libraries\Utility\Utility;
+use App\Libraries\Utility\DbUtility;
 use App\Libraries\Utility\ApiUtility;
 use App\Model\Episode;
 use App\Model\Podcast;
@@ -25,7 +25,7 @@ class ShowController extends Controller {
 		// If the podcast is not in the DB
 		// save it in the DB.
 		if ($show === null) {
-			$show = Utility::insertPodcast($podcast);
+			$show = DbUtility::insertPodcast($podcast);
 		}
 		
 		// Get the id of the podcast.
@@ -49,7 +49,7 @@ class ShowController extends Controller {
 			
 			if ($dbEpisode === null) {
 				$episodeListing = ApiUtility::getEpisode($episodeId);
-				$episode = Utility::insertEpisode($podcastId, $episodeListing);
+				$episode = DbUtility::insertEpisode($podcastId, $episodeListing);
 				$episode["episode_num"] = $i+1;
 			} else {
 				$episode = [

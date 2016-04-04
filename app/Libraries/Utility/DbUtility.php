@@ -6,7 +6,7 @@ use App\Model\Podcast;
 use App\Model\Episode;
 use App\Libraries\Audiosearch\lib\Audiosearch\Audiosearch_Client;
 
-class Utility {
+class DbUtility {
 	
 	/**
 	 * Determine if podcast has already been saved, if so
@@ -21,7 +21,7 @@ class Utility {
 			$show = new Podcast();
 			$show->as_id = $podcastDetails["id"];
 			$show->title = $podcastDetails["title"];
-			$image = isset($podcastDetails["image_files"][0]["url"]["thumb"]) ? $podcastDetails["image_files"][0]["url"]["thumb"] : "";
+			$image = isset($podcastDetails["image_files"][0]["url"]["full"]) ? $podcastDetails["image_files"][0]["url"]["full"] : "";
 			$show->image_url = $image;
 			$show->explicit = 0;
 			$show->last_published = date("Y-m-d H:i:s");
