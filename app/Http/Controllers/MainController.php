@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Model\Podcast;
 use Illuminate\Support\Facades\Input;
-use App\Libraries\Utility\Utility;
+use App\Libraries\Utility\DbUtility;
 use App\Libraries\Utility\ApiUtility;
+use Illuminate\Support\Facades\URL;
+use App\Libraries\Utility\Helper;
 
 class MainController extends Controller {
 	
@@ -71,11 +73,11 @@ class MainController extends Controller {
 			
 			foreach($topShowsResponse["shows"] as $show) {
 				$showDetails = ApiUtility::getPodcast($show["id"]);
-				Utility::insertPodcast($showDetails);
+				DbUtility::insertPodcast($showDetails);
 				$show = [
 						"as_id" => $showDetails["id"],
 						"title" => $showDetails["title"],
-						"image_url" => $showDetails["image_files"][0]["url"]["thumb"],
+						"image_url" => Helper::getArtworkImage($showDetails),
 						"resource" => "shows/".$showDetails["id"]
 				];
 				array_push($topShows, $show);
@@ -83,7 +85,7 @@ class MainController extends Controller {
 	
 			foreach($tastemakerResponse["results"] as $show) {
 				$showDetails = ApiUtility::getPodcast($show["id"]);
-				Utility::insertPodcast($showDetails);
+				DbUtility::insertPodcast($showDetails);
 				$show = [
 						"as_id" => $showDetails["id"],
 						"title" => $showDetails["title"],
