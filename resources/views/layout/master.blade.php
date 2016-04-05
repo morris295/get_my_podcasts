@@ -3,6 +3,7 @@
 		<meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <meta name="theme-color" content="#2196f3">
 		<title>@yield('title')</title>
 		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/bower_components/bootstrap/dist/css/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/style/default.css" />
@@ -24,7 +25,7 @@
 		            <li><a href="contact">Contact</a></li>
 		          </ul>
 		          <ul class="nav navbar-nav navbar-right">
-		          	  <li><a href="#">Login</a></li>
+		          	  <li><a href="{{URL::to('/')}}/login">Login</a></li>
 		          </ul>
 		        </div>
 		      </div>

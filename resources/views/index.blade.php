@@ -19,7 +19,7 @@
         </form>
 	</div>
 	<div class="col-md-6">
-		<table class="table table-bordered">
+		<table class="table table-responsive">
 			<tr>
 				<th colspan="2">Top shows yesterday</th>
 			</tr>
@@ -32,7 +32,7 @@
 		</table>
 	</div>
 	<div class="col-md-6">
-		<table class="table table-bordered">
+		<table class="table table-responsive">
 			<tr>
 				<th colspan="2">Most Popular</th>
 			</tr>

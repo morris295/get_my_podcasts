@@ -8,7 +8,7 @@
 		<p class="show-description"><h3>{{$show["description"]}}</h3></p>
 	</div>
 	<div class="col-md-12">
-		<table class="table table-bordered">
+		<table class="table table-responsive">
 			<tr>
 				<th colspan="4">Recent Episodes</th>
 			</tr>
