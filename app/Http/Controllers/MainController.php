@@ -9,6 +9,7 @@ use App\Libraries\Utility\DbUtility;
 use App\Libraries\Utility\ApiUtility;
 use Illuminate\Support\Facades\URL;
 use App\Libraries\Utility\Helper;
+use Illuminate\Support\Facades\Auth;
 
 class MainController extends Controller {
 	
@@ -21,8 +22,12 @@ class MainController extends Controller {
 	 * Return application main page.
 	 */
 	public function index() {
-		
 		$data = $this->getTopShows();
+		if (Auth::check()) {
+			$data["authenticated"] = true;
+		} else {
+			$data["authenticated"] = false;
+		}
 		
 		return view('index', $data);
 	}

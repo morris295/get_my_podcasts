@@ -68,6 +68,14 @@ a:hover {
 	width: 50%;
 }
 
+.navbar-right .welcome-message {
+	color: #b2dbfb;
+	position: relative;
+	display: block;
+	padding-top: 20.5px;
+	padding-bottom: 20.5px;
+}
+
 audio {
 	width: 100%;	
 }
