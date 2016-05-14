@@ -18,25 +18,25 @@
 			<nav class="navbar navbar-inverse navbar-fixed-top">
 		      <div class="container">
 		        <div class="navbar-header">
-		          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-		          </button>
+		        	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	          		<span class="sr-only">Toggle navigation</span>
+	            	<span class="icon-bar"></span>
+	            	<span class="icon-bar"></span>
+	            	<span class="icon-bar"></span>
+          		</button>
 		          <a class="navbar-brand" href="{{URL::to('/')}}">Get My Podcasts</a>
 		        </div>
-		        <div id="navbar" class="collapse navbar-collapse">
+		        <div id="navbar" class="navbar-collapse collapse">
 		          <ul class="nav navbar-nav">
-		          @if(Auth::guest())
-		            <li><a href="register">Sign Up</a></li>
-		          @endif
 		            <li><a href="about">About</a></li>
 		            <li><a href="contact">Contact</a></li>
-		          </ul>
-		          <ul class="nav navbar-nav navbar-right">
-		          @if (Auth::guest())
-		          	  <li><a href="{{URL::to('/')}}/login">Login</a></li>
-		          @else
-		          	  <li><a href="{{URL::to('/')}}/my-account/{{Auth::id()}}">My Account</a></li>
-		          	  <li><a href="#/">Logout</a></li>
-		          @endif
+	            @if (Auth::guest())
+	            	<li><a href="register">Sign Up</a></li>
+	          	  <li><a href="{{URL::to('/')}}/login">Login</a></li>
+	          	@else
+	          	  <li><a href="{{URL::to('/')}}/my-account/{{Auth::id()}}">My Account</a></li>
+	          	  <li><a href="#/">Logout</a></li>
+	          	@endif
 		          </ul>
 		        </div>
 		      </div>
@@ -49,6 +49,7 @@
 	    </div>
 	    @yield('footer')
 	    <script src="{{URL::to('/')}}/bower_components/jquery/dist/jquery.js"></script>
+	    <script src="{{URL::to('/')}}/bower_components/bootstrap/dist/js/bootstrap.js"></script>
 	    <script src="{{URL::to('/')}}/Alertify/src/alertify.js"></script>
 	    <script src="{{URL::to('/')}}/subscribe.js"></script>
 	    <script src="{{URL::to('/')}}/audio.js"></script>

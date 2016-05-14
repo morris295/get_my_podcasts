@@ -4,39 +4,57 @@
 
 @section('content')
 <h3>Your Subscriptions</h3>
-<div class="col-md-12">
-	<div class="table-responsive">
+<div class="col-md-12" class="subscription-container">
+	<div class="row">
 		@foreach($userSubs as $sub)
-			<img style="width: 15%;" 
-				 class="pull-left" 
-				 src="{{$sub->image_url}}" 
-				 id="show-{{$sub->podcast_num}}"
-				 data-value="{{$sub->podcast_num}}"/>
-				 
-		    <table class="table table-striped" id="episodes-{{$sub->podcast_num}}">
-				@foreach($sub->episodes as $episode)
-					<tr>
-						<td>
-							<div>
-								<span class="pull-left">
-									{{$episode["episode_title"]}}
-								</span>
-								<span class="pull-right">
-									<a href="#">
-										<span
-											id="play-episode-{{$episode['episode_num']}}" 
-										    data-value="{{$episode['audio_link']}}" 
-											data-episodeTitle="{{$episode['episode_title']}}" 
-											class="glyphicon glyphicon-play">
+		<div class="col-sm-4 col-md-4">
+			<div class="thumbnail">
+				<img src="{{$sub->image_url}}"
+						 id="show-{{$sub->podcast_num}}"
+						 data-value="{{$sub->podcast_num}}" />
+				<div class="caption" id="episodes-{{$sub->podcast_num}}">
+					<div class="row">
+						<div class="btn-group" role="group" aria-label="...">
+  						<button type="button" class="btn btn-default">
+  							Refresh
+  							<i class="glyphicon glyphicon-refresh"></i>
+  						</button>
+  						<button type="button" class="btn btn-danger">
+  							Unsubscribe
+  						</button>
+						</div>
+					</div>
+					<div class="row" style="margin-bottom: 0.7em;"></div>	
+					<table class="table table-striped episode-sub-table">
+						@foreach($sub->episodes as $episode)
+							<tr>
+								<td>
+									<div>
+										<span class="pull-left" style="overflow: none;">
+											<small>{{$episode["episode_title"]}}</small>
 										</span>
-									</a>
-								</span>
-							</div>
-						</td>
-					</tr>						
-				@endforeach		
-			</table>
-		@endforeach
+									</div>
+								</td>
+								<td>
+									<span class="pull-right">
+											<a href="#">
+												<span 
+													id="play-episode-{{$episode['episode_num']}}"
+													data-value="{{$episode['audio_link']}}"
+													data-episodeTitle="{{$episode['episode_title']}}"
+													class="glyphicon glyphicon-play">
+													</span>
+											</a>
+										</span>
+								</td>
+							</tr>						
+						@endforeach
+					</table>
+					</div>
+				</div>
+			</div>
+			@endforeach
+		</div>
 	</div>
 </div>
 <div id="detail-container" style="display: none;">

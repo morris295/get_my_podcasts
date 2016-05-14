@@ -1,6 +1,6 @@
 body {
 	padding-top: 50px;
-	margin-bottom: 60px;
+	margin-bottom: 10em !important;
 }
 
 html {
@@ -83,4 +83,8 @@ audio {
 .sub-button {
 	background-color: #2196f3 !important;
 	color: white !important; 
+}
+
+.episode-sub-table {
+	margin-bottom: 0 !important;
 }
