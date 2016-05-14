@@ -1,48 +1,44 @@
-<html>
-	<head>
-		<meta charset="utf-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	    <meta name="viewport" content="width=device-width, initial-scale=1">
-	    <meta name="theme-color" content="#2196f3">
-		<title>@yield('title')</title>
-		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/bower_components/bootstrap/dist/css/bootstrap.css" />
-		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/style/default.css" />
-		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/style/paper.css" />
-	</head>
-	<body>
-		@section('navbar')
-			<nav class="navbar navbar-inverse navbar-fixed-top">
-		      <div class="container">
-		        <div class="navbar-header">
-		          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-		          </button>
-		          <a class="navbar-brand" href="{{URL::to('/')}}">Get My Podcasts</a>
-		        </div>
-		        <div id="navbar" class="collapse navbar-collapse">
-		          <ul class="nav navbar-nav">
-		            <li><a href="register">Sign Up</a></li>
-		            <li><a href="about">About</a></li>
-		            <li><a href="contact">Contact</a></li>
-		          </ul>
-		          <ul class="nav navbar-nav navbar-right">
-		          @if (Auth::guest())
-		          	  <li><a href="{{URL::to('/')}}/login">Login</a></li>
-		          @else
-		          	  <li class="welcome-message">Welcome, {{Auth::user()->name}}
-		          	  <li><a href="{{URL::to('/')}}/my-account/{{Auth::id()}}">My Account</a></li>
-		          @endif
-		          </ul>
-		        </div>
-		      </div>
-		    </nav>
-		@show
-		<div class="container">
-      	  <div class="base-template">
-	        @yield('content')
-	      </div>
-	    </div>
-	    @yield('footer')
-	    <script src="{{URL::to('/')}}/bower_components/jquery/dist/jquery.js"></script>
-	    <script src="{{URL::to('/')}}/audio.js"></script>
-	</body>
-</html>
+@extends('layout.accountmaster')
+
+@section('title', 'My Account - Get My Podcasts!')
+
+@section('content')
+<h3>Your Subscriptions</h3>
+<div class="col-md-12">
+	<div class="table-responsive">
+		@foreach($userSubs as $sub)
+			<img style="width: 15%;" 
+				 class="pull-left" 
+				 src="{{$sub->image_url}}" 
+				 id="show-{{$sub->podcast_num}}"
+				 data-value="{{$sub->podcast_num}}"/>
+				 
+		    <table class="table table-striped" id="episodes-{{$sub->podcast_num}}">
+				@foreach($sub->episodes as $episode)
+					<tr>
+						<td>
+							<div>
+								<span class="pull-left">
+									{{$episode["episode_title"]}}
+								</span>
+								<span class="pull-right">
+									<a href="#">
+										<span
+											id="play-episode-{{$episode['episode_num']}}" 
+										    data-value="{{$episode['audio_link']}}" 
+											data-episodeTitle="{{$episode['episode_title']}}" 
+											class="glyphicon glyphicon-play">
+										</span>
+									</a>
+								</span>
+							</div>
+						</td>
+					</tr>						
+				@endforeach		
+			</table>
+		@endforeach
+	</div>
+</div>
+<div id="detail-container" style="display: none;">
+</div>
+@endsection

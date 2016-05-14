@@ -67,4 +67,8 @@ class DbUtility {
 				"source"=>$episode->source
 		];
 	}
+	
+	public static function subscribeUser($podcastId, $userId) {
+		//TODO: Method stub for creating subscriptions
+	}
 }

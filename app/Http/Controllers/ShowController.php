@@ -63,6 +63,6 @@ class ShowController extends Controller {
 			array_push($episodes, $episode);
 		}
 		
-		return view("show", ["show" => $show, "image" => $image, "episodes" => $episodes]);
+		return view("show", ["show" => $show, "image" => $image, "episodes" => $episodes, "podcastId" => $podcastId]);
 	}
 }

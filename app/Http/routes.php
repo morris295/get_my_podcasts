@@ -11,15 +11,15 @@
 |
 */
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
+Route::post("/account/subscribe", "AccountController@subscribeUser");
+/*
 Route::get("/", "MainController@index");
 Route::get("/about", "MainController@about");
 Route::get("/contact", "MainController@contact");
 Route::get("/shows/{id}", "ShowController@getShow");
 Route::get("/search", "MainController@search");
 Route::get("/my-account/{id}", "AccountController@index");
+Route::post("/account/subscribe", "AccountController@subscribeUser");*/
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
@@ -45,4 +45,10 @@ Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
     Route::get('/', 'MainController@index');
+    Route::get("/", "MainController@index");
+    Route::get("/about", "MainController@about");
+    Route::get("/contact", "MainController@contact");
+    Route::get("/shows/{id}", "ShowController@getShow");
+    Route::get("/search", "MainController@search");
+    Route::get("/my-account/{id}", "AccountController@index");
 });

@@ -9,9 +9,6 @@
 		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/bower_components/bootstrap/dist/css/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/style/default.css" />
 		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/style/paper.css" />
-		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/Alertify/themes/alertify.core.css" />
-		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/Alertify/themes/alertify.default.css" />
-		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/Alertify/themes/alertify.bootstrap.css" />
 	</head>
 	<body>
 		@section('navbar')
@@ -24,19 +21,11 @@
 		        </div>
 		        <div id="navbar" class="collapse navbar-collapse">
 		          <ul class="nav navbar-nav">
-		          @if(Auth::guest())
-		            <li><a href="register">Sign Up</a></li>
-		          @endif
 		            <li><a href="about">About</a></li>
 		            <li><a href="contact">Contact</a></li>
 		          </ul>
 		          <ul class="nav navbar-nav navbar-right">
-		          @if (Auth::guest())
-		          	  <li><a href="{{URL::to('/')}}/login">Login</a></li>
-		          @else
-		          	  <li><a href="{{URL::to('/')}}/my-account/{{Auth::id()}}">My Account</a></li>
-		          	  <li><a href="#/">Logout</a></li>
-		          @endif
+		          	<li><a href="#/">Logout</a></li>
 		          </ul>
 		        </div>
 		      </div>
@@ -47,10 +36,20 @@
 	        @yield('content')
 	      </div>
 	    </div>
-	    @yield('footer')
+	    <div class="navbar navbar-default navbar-fixed-bottom">
+		  <div class="container">
+		    <span class="navbar-text current-playing" id="episode-playing-title">
+		    	Nothing playing:
+		    </span>
+		    <span class="navbar-text audio-control">
+		    	<audio id="player" controls>
+					<source id="mpeg-source" src="" type="audio/mpeg">
+				</audio>
+		    </span>
+		  </div>
+		</div>
 	    <script src="{{URL::to('/')}}/bower_components/jquery/dist/jquery.js"></script>
-	    <script src="{{URL::to('/')}}/Alertify/src/alertify.js"></script>
-	    <script src="{{URL::to('/')}}/subscribe.js"></script>
+	    <script src="{{URL::to('/')}}/actions.js"></script>
 	    <script src="{{URL::to('/')}}/audio.js"></script>
 	</body>
 </html>

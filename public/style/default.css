@@ -79,3 +79,8 @@ a:hover {
 audio {
 	width: 100%;	
 }
+
+.sub-button {
+	background-color: #2196f3 !important;
+	color: white !important; 
+}
