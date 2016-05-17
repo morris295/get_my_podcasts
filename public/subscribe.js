@@ -1,11 +1,21 @@
 $(document).ready(function() {
 	$("#subscribe").click(function() {
+		console.log(window.location.host);
+		
+		var endpoint = "";
+		
+		if (window.location.host === 'localhost') {
+			endpoint = "/get_my_podcasts/public/account/subscribe";
+		} else {
+			endpoint = "/account/subscribe";
+		}
+		
 		var userId = $("#sub-user-id").val();
 		var podcastId = $("#sub-show-id").val();
 		var token = $('meta[name="csrf-token"]').attr("content");
 		alertify.set({delay: 5000 });
 		$.ajax({
-			url: "/get_my_podcasts/public/account/subscribe",
+			url: endpoint,
 			headers: {
 			  'X-CSRF-TOKEN': token
 			},
