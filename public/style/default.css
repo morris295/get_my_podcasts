@@ -88,3 +88,7 @@ audio {
 .episode-sub-table {
 	margin-bottom: 0 !important;
 }
+
+.shows-table td.artwork {
+	width: 30%;
+}
