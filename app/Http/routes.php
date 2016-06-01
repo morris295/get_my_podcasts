@@ -12,6 +12,7 @@
 */
 
 Route::post("/account/subscribe", "AccountController@subscribeUser");
+Route::post("/account/unsubscribe", "AccountController@unsubscribeUser");
 /*
 Route::get("/", "MainController@index");
 Route::get("/about", "MainController@about");

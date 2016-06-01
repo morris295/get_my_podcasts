@@ -45,6 +45,15 @@ class AccountController extends Controller {
 		return json_encode(["code" => 200, "message" => "", "data" => ""]);
 	}
 	
+	public function unsubscribeUser() {
+		$user = Input::get("user_id");
+		$show = Input::get("podcast_id");
+		
+		subscription::where(["user_id" => $user, "podcast_id" => $show])->delete();
+		
+		return json_encode(["code" => 200, "message" => "", "data" => ""]);
+	}
+	
 	private function compileShows($shows) {
 		
 		$compiledShows = [];
@@ -59,6 +68,7 @@ class AccountController extends Controller {
 			->get();
 			
 			$podcast = new \stdClass();
+			$podcast->id = $show->id;
 			$podcast->title = $show->title;
 			$podcast->image_url = $show->image_url;
 			$podcast->podcast_num = $i;

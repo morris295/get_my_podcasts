@@ -14,12 +14,16 @@
 						 data-value="{{$sub->podcast_num}}" />
 				<div class="caption" id="episodes-{{$sub->podcast_num}}">
 					<div class="row">
+					<input type="hidden" id="unsub-{{$sub->podcast_num}}-podcast-id" value="{{$sub->id}}" />
+					<input type="hidden" id="unsub-{{$sub->podcast_num}}-user-id" value="{{Auth::id()}}" />
 						<div class="btn-group" role="group" aria-label="...">
   						<button type="button" class="btn btn-default">
   							Refresh
   							<i class="glyphicon glyphicon-refresh"></i>
   						</button>
-  						<button type="button" class="btn btn-danger">
+  						<button type="button" class="btn btn-danger" 
+  								id="unsub-show-{{$sub->podcast_num}}"
+  								data-value="{{$sub->podcast_num}}">
   							Unsubscribe
   						</button>
 						</div>

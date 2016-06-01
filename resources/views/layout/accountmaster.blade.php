@@ -9,6 +9,9 @@
 		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/bower_components/bootstrap/dist/css/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/style/default.css" />
 		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/style/paper.css" />
+		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/Alertify/themes/alertify.core.css" />
+		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/Alertify/themes/alertify.default.css" />
+		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/Alertify/themes/alertify.bootstrap.css" />
 	</head>
 	<body>
 		@section('navbar')
@@ -54,7 +57,9 @@
 		</div>
 	    <script src="{{URL::to('/')}}/bower_components/jquery/dist/jquery.js"></script>
 	    <script src="{{URL::to('/')}}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	    <script src="{{URL::to('/')}}/Alertify/src/alertify.js"></script>
 	    <script src="{{URL::to('/')}}/actions.js"></script>
+	    <script src="{{URL::to('/')}}/subscribe.js"></script>
 	    <script src="{{URL::to('/')}}/audio.js"></script>
 	</body>
 </html>
