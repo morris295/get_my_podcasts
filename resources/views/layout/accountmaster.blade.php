@@ -60,6 +60,7 @@
 	    <script src="{{URL::to('/')}}/Alertify/src/alertify.js"></script>
 	    <script src="{{URL::to('/')}}/actions.js"></script>
 	    <script src="{{URL::to('/')}}/subscribe.js"></script>
+	    <script src="{{URL::to('/')}}/async-ops.js"></script>
 	    <script src="{{URL::to('/')}}/audio.js"></script>
 	</body>
 </html>

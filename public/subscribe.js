@@ -1,10 +1,17 @@
+var setSubscribed = function(element) {
+	element.attr('disabled', true);
+	element.html("Subscribed");
+	element.attr('style', 'background-color: green !important');
+};
+
 $(document).ready(function() {
-	$("#subscribe").click(function() {
+	
+	$(document).on('click', "#subscribe", function() {
 		console.log(window.location.host);
 		
 		var endpoint = "";
 		
-		if (window.location.host === 'localhost') {
+		if (window.location.host.indexOf('localhost') !== -1) {
 			endpoint = "/get_my_podcasts/public/account/subscribe";
 		} else {
 			endpoint = "/account/subscribe";
@@ -22,11 +29,11 @@ $(document).ready(function() {
 			method: "POST",
 			data: { "user_id": userId, "podcast_id": podcastId }
 		}).success(function(response) {
-			alertify.success("You've subscribed!");			
+			alertify.success("You've subscribed!");
+			setSubscribed($("#subscribe"));
 		}).fail(function(err) {
-			console.log(err.responseText);
 			alertify.error("An error occurred.");
-			alertify.log(err);
+			alertify.log(err.message);
 		});
 	});
 	

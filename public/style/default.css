@@ -4,27 +4,27 @@ body {
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+	position: relative;
+	min-height: 100%;
 }
 
 .stylish-input-group {
 	margin-bottom: 2em;
 }
 
-.stylish-input-group .input-group-addon{
-    background: white !important; 
+.stylish-input-group .input-group-addon {
+	background: white !important;
 }
 
-.stylish-input-group .form-control{
-    border-right:0; 
-    box-shadow:0 0 0; 
-    border-color:#ccc;
+.stylish-input-group .form-control {
+	border-right: 0;
+	box-shadow: 0 0 0;
+	border-color: #ccc;
 }
 
-.stylish-input-group button{
-    border:0;
-    background:transparent;
+.stylish-input-group button {
+	border: 0;
+	background: transparent;
 }
 
 .base-template {
@@ -37,22 +37,23 @@ html {
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  background-color: #f5f5f5;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	height: 60px;
+	background-color: #f5f5f5;
 }
 
 .show-container {
 	/*margin-top: 1em;
 	margin-bottom: 1em;*/
+	
 }
 
 #search-results {
-	text-align: left; !important
-	list-style-type: none; 
+	text-align: left; !
+	important list-style-type: none;
 }
 
 a:hover {
@@ -77,12 +78,17 @@ a:hover {
 }
 
 audio {
-	width: 100%;	
+	width: 100%;
 }
 
 .sub-button {
 	background-color: #2196f3 !important;
-	color: white !important; 
+	color: white !important;
+}
+
+.subbed-button {
+	background-color: green !important;
+	color: white !important;
 }
 
 .episode-sub-table {
@@ -91,4 +97,18 @@ audio {
 
 .shows-table td.artwork {
 	width: 30%;
+}
+
+.sub-artwork {
+	width: 100%;
+}
+
+.no-select {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	cursor: pointer;
 }

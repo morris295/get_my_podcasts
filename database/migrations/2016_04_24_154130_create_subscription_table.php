@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateSubscriptionTable extends Migration
 {
@@ -12,10 +12,10 @@ class CreateSubscriptionTable extends Migration
      */
     public function up()
     {
-        Schema::create('subscription', function (Blueprint $table) {
+        Schema::create('subscriptions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->integer('podcast_id');
+            $table->integer('podcast_id')->unique();
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateSubscriptionTable extends Migration
      */
     public function down()
     {
-       	Schema::drop('subcsription');
+       	Schema::drop('subscriptions');
     }
 }

@@ -1,7 +1,7 @@
 $(document).ready(function() {
-
 	var audio = $("#player");
-	$("[id^=play-episode]").click(function(e) {
+	
+	$(document).on("click", "[id^=play-episode]", function(e) {
 		e.preventDefault();
 		$("#mpeg-source").attr("src", $(this).attr("data-value"));
 		var title = $(this).attr("data-episodeTitle");

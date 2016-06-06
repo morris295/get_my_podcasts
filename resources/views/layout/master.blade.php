@@ -31,11 +31,11 @@
 		            <li><a href="about">About</a></li>
 		            <li><a href="contact">Contact</a></li>
 	            @if (Auth::guest())
-	            	<li><a href="register">Sign Up</a></li>
+	            	<li><a href="{{URL::to('/')}}/register">Sign Up</a></li>
 	          	  <li><a href="{{URL::to('/')}}/login">Login</a></li>
 	          	@else
 	          	  <li><a href="{{URL::to('/')}}/my-account/{{Auth::id()}}">My Account</a></li>
-	          	  <li><a href="#/">Logout</a></li>
+	          	  <li><a href="{{URL::to('/')}}/auth/logout">Logout</a></li>
 	          	@endif
 		          </ul>
 		        </div>
@@ -52,6 +52,7 @@
 	    <script src="{{URL::to('/')}}/bower_components/bootstrap/dist/js/bootstrap.js"></script>
 	    <script src="{{URL::to('/')}}/Alertify/src/alertify.js"></script>
 	    <script src="{{URL::to('/')}}/subscribe.js"></script>
+	    <script src="{{URL::to('/')}}/async-ops.js"></script>
 	    <script src="{{URL::to('/')}}/audio.js"></script>
 	</body>
 </html>

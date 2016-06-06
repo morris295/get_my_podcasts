@@ -11,17 +11,6 @@
 |
 */
 
-Route::post("/account/subscribe", "AccountController@subscribeUser");
-Route::post("/account/unsubscribe", "AccountController@unsubscribeUser");
-/*
-Route::get("/", "MainController@index");
-Route::get("/about", "MainController@about");
-Route::get("/contact", "MainController@contact");
-Route::get("/shows/{id}", "ShowController@getShow");
-Route::get("/search", "MainController@search");
-Route::get("/my-account/{id}", "AccountController@index");
-Route::post("/account/subscribe", "AccountController@subscribeUser");*/
-
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController'
@@ -38,18 +27,22 @@ Route::controllers([
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-    //
-});
-
 Route::group(['middleware' => 'web'], function () {
-    Route::auth();
+    
+		Route::auth();
 
-    Route::get('/', 'MainController@index');
     Route::get("/", "MainController@index");
     Route::get("/about", "MainController@about");
     Route::get("/contact", "MainController@contact");
     Route::get("/shows/{id}", "ShowController@getShow");
     Route::get("/search", "MainController@search");
     Route::get("/my-account/{id}", "AccountController@index");
+    
+    /*Ajax routes*/
+    Route::post("/account/subscribe", "AsyncController@subscribeUser");
+    Route::post("/account/unsubscribe", "AsyncController@unsubscribeUser");
+    Route::get("/index/content", "AsyncController@getIndexContent");
+    Route::get("/subscription/refresh/{id}", "AsyncController@refreshSubscription");
+    Route::get("/show/get/{id}", "AsyncController@getShowContent");
+    
 });

@@ -2,9 +2,8 @@
 
 namespace App\Libraries\Utility;
 
-use App\Model\Podcast;
 use App\Model\Episode;
-use App\Libraries\Audiosearch\lib\Audiosearch\Audiosearch_Client;
+use App\Model\Podcast;
 
 class DbUtility {
 	
@@ -13,7 +12,7 @@ class DbUtility {
 	 * update the last top date.  If not, save it.
 	 * @param unknown $podcastDetails
 	 */
-	public static function insertPodcast($podcastDetails) {
+	public static function insertPodcast($podcastDetails, $topShow = 0, $tastemaker = 0) {
 		
 		$show = Podcast::where("title", $podcastDetails["title"])->first();
 		
@@ -25,8 +24,8 @@ class DbUtility {
 			$show->image_url = $image;
 			$show->explicit = 0;
 			$show->last_published = date("Y-m-d H:i:s");
-			$show->top_show = 0;
-			$show->tastemaker = 1;
+			$show->top_show = $topShow;
+			$show->tastemaker = $tastemaker;
 			$show->resource = "shows/".$podcastDetails["id"];
 			$show->last_top_show_date = date("Y-m-d H:i:s");
 			$show->total_episodes = isset($podcastDetails["number_of_episodes"]) ? $podcastDetails["number_of_episodes"] : 0;
