@@ -58,3 +58,15 @@ Podcasts!') @section('content')
 </div>
 <div id="detail-container" style="display: none;"></div>
 @endsection
+@section('js-libs')
+<script src="{{URL::to('/')}}/bower_components/jquery/dist/jquery.js"></script>
+<script src="{{URL::to('/')}}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="{{URL::to('/')}}/Alertify/src/alertify.js"></script>
+@endsection
+@section('scripts')
+<script src="{{URL::to('/')}}/actions.js"></script>
+<script src="{{URL::to('/')}}/subscribe.js"></script>
+<script src="{{URL::to('/')}}/async-ops.js"></script>
+<script src="{{URL::to('/')}}/audio.js"></script>
+@endsection
+	    

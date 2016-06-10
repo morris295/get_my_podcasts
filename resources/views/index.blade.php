@@ -9,7 +9,7 @@
 	<div class="col-md-12">
 		<form method="get" action="{{URL::to('/')}}/search">
           	<div class="input-group stylish-input-group">
-          		<input type="text" placeholder="Search..." class="form-control" name="term"/>
+          		<input type="text" id="search" placeholder="Search..." class="form-control" name="term"/>
          		<span class="input-group-addon">
          			<button type="submit">
          				<span class="glyphicon glyphicon-search"></span>
@@ -30,4 +30,16 @@
 		    </span>
 		  </div>
     </div>
+@endsection
+@section('js-libs')
+<script src="{{URL::to('/')}}/bower_components/jquery/dist/jquery.js"></script>
+<script src="{{URL::to('/')}}/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="{{URL::to('/')}}/Alertify/src/alertify.js"></script>
+<script src="{{URL::to('/')}}/twitter-typeahead/typeahead.js"></script>
+@endsection
+@section('scripts')
+<script src="{{URL::to('/')}}/subscribe.js"></script>
+<script src="{{URL::to('/')}}/async-ops.js"></script>
+<script src="{{URL::to('/')}}/audio.js"></script>
+<script src="{{URL::to('/')}}/search.js"></script>
 @endsection

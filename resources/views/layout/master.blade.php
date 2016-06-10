@@ -12,6 +12,7 @@
 		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/Alertify/themes/alertify.core.css" />
 		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/Alertify/themes/alertify.default.css" />
 		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/Alertify/themes/alertify.bootstrap.css" />
+		@yield('js-libs')
 	</head>
 	<body>
 		@section('navbar')
@@ -48,11 +49,6 @@
 	      </div>
 	    </div>
 	    @yield('footer')
-	    <script src="{{URL::to('/')}}/bower_components/jquery/dist/jquery.js"></script>
-	    <script src="{{URL::to('/')}}/bower_components/bootstrap/dist/js/bootstrap.js"></script>
-	    <script src="{{URL::to('/')}}/Alertify/src/alertify.js"></script>
-	    <script src="{{URL::to('/')}}/subscribe.js"></script>
-	    <script src="{{URL::to('/')}}/async-ops.js"></script>
-	    <script src="{{URL::to('/')}}/audio.js"></script>
+	    @yield('scripts')
 	</body>
 </html>
