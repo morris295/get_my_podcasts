@@ -125,8 +125,16 @@ class AsyncController extends Controller {
 				
 			}
 		} else {
-			$topShows = Podcast::where("top_show", 1)->get()->toArray();
-			$tastemakers = Podcast::where("tastemaker", 1)->get()->toArray();
+			$topShows = Podcast::where("top_show", 1)
+								->orderBy('last_top_show_date', 'desc')
+								->take(10)
+								->get()
+								->toArray();
+			$tastemakers = Podcast::where("tastemaker", 1)
+								->orderBy('last_top_show_date', 'desc')
+								->take(10)
+								->get()
+								->toArray();
 		}
 		
 			return ["topShows" => $topShows, "tastemakers" => $tastemakers];
