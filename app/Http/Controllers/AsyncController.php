@@ -12,6 +12,7 @@ use App\Model\subscription;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
+use \DateTime;
 
 class AsyncController extends Controller {
 	
@@ -77,13 +78,14 @@ class AsyncController extends Controller {
 	 */
 	private function getTopShows() {
 	
-		$lastUpdated = Podcast::where("top_show", 1)->max("last_top_show_date");
-		$threeDaysAgo = strtotime("-3 days");
+		$lastUpdated = new DateTime(Podcast::where("top_show", 1)->max("last_top_show_date"));
+		$threeDaysAgo = new DateTime("-3 days");
+		$interval = $lastUpdated->diff($threeDaysAgo);
 		
  		$topShows = [];
 		$tastemakers = [];
 		
-		if ($lastUpdated == null || strtotime($lastUpdated) < $threeDaysAgo) {
+		if ($lastUpdated == null || $interval->days > 7) {
 			
 			$yesterday = date("Y-m-d", strtotime("-7 days"));
 			
