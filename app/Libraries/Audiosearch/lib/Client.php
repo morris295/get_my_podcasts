@@ -21,8 +21,6 @@ class Audiosearch_Client {
     private static $instance;
 
     /**
-     *
-     *
      * @param unknown $args (optional)
      */
     protected function __construct($args=array()) {

@@ -23,8 +23,9 @@ $(document).ready(function() {
 		}).success(function(content) {
 			$("#main-content-wrap").empty();
 			$("#main-content-wrap").append(content);
-		}).error(function() {
+		}).error(function(err) {
 			$("#main-content-wrap").empty();
+			console.log(err.status + " " + err.statusText);
 		});
 		
 	} else if ($("#show-content-wrap").length > 0) {

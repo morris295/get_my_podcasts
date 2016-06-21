@@ -79,17 +79,17 @@ class AsyncController extends Controller {
 	private function getTopShows() {
 	
 		$lastUpdated = new DateTime(Podcast::where("top_show", 1)->max("last_top_show_date"));
-		$threeDaysAgo = new DateTime("-3 days");
-		$interval = $lastUpdated->diff($threeDaysAgo);
+		$sevenDaysAgo = new DateTime("-3 days");
+		$interval = $lastUpdated->diff($sevenDaysAgo);
 		
  		$topShows = [];
 		$tastemakers = [];
 		
-		if ($lastUpdated == null || $interval->days > 7) {
+		if ($lastUpdated == null || $interval->days >= 7) {
 			
-			$yesterday = date("Y-m-d", strtotime("-7 days"));
+			$lastWeek = date("Y-m-d", strtotime("-7 days"));
 			
- 			$topShowsResponse = ApiUtility::getTopShows($yesterday);
+ 			$topShowsResponse = ApiUtility::getTopShows($lastWeek);
 			$tastemakerResponse = ApiUtility::getTastemakers();
 			$counter = 0;
 			
@@ -186,10 +186,15 @@ class AsyncController extends Controller {
 		
 		if (Auth::check()) {
 			$userId = Auth::id();
-			$isSubbed = subscription::where(["user_id" => $userId, "podcast_id" => $show->id])->first();
 			
-			if ($isSubbed !== null) {
-				$subscribed = true;
+			$subscribed = false;
+			$isSubbed = null;
+			
+			if ($show == null) {
+				$subscribed = false;
+			} else {
+				$isSubbed = subscription::where(["user_id" => $userId, "podcast_id" => $show->id])->first();
+				$subscribed = ($isSubbed !== null) ? true : false;
 			}
 		}
 		
