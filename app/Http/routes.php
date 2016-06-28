@@ -27,6 +27,8 @@ Route::controllers([
 |
 */
 
+Route::get("/artwork", "AsyncController@artworkImage");
+
 Route::group(['middleware' => 'web'], function () {
     
 		Route::auth();

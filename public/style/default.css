@@ -112,3 +112,33 @@ audio {
 	user-select: none;
 	cursor: pointer;
 }
+
+.jumbotron > img {
+	width: 30%;
+}
+
+div#loader {
+	text-align: center;
+}
+
+.item {
+	border-radius: 4px;
+	width: 100%;
+	background-color: #ebf3f9;
+}
+
+.item > a > img {
+	width: 38%;
+}
+
+.icon-prev {
+	color: #102432;
+}
+
+.icon-next {
+	color: #102432;
+}
+
+.table-responsive > tr > td:nth-child(3) {
+	vertical-align: middle;
+}

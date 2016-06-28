@@ -8,6 +8,22 @@ $(document).ready(function() {
 		baseUrl = "/";
 	}
 	
+	var carouselItems = $(".item");
+	
+	carouselItems.each(function(item) {
+		$.ajax({
+			url: baseUrl + "artwork",
+			method: "GET"
+		}).success(function(result) {
+			data = JSON.parse(result);
+			var link = carouselItems[item].children[0];
+			link.href = baseUrl + data.resource;
+			link.children[0].src = data.image;
+		}).error(function(err) {
+			console.log(err.status + " " + err.statusText);
+		});
+	});
+	
 	var preloader = "<div id=\"loader\"><p>Please wait...</p><img src=\""+
 		baseUrl+"image/ajax-loader.gif\" /></div>";
 		

@@ -231,7 +231,8 @@ class AsyncController extends Controller {
 						"title"=>$dbEpisode->title,
 						"description"=>$dbEpisode->description,
 						"source"=>$dbEpisode->source,
-						"episode_num"=>$i+1
+						"episode_num"=>$i+1,
+						"length"=>gmdate("H:i:s", $dbEpisode->duration)
 				];
 			}
 				
@@ -241,4 +242,11 @@ class AsyncController extends Controller {
 		return ["show" => $show, "image" => $image, "episodes" => $episodes, "podcastId" => $podcastId, "subscribed" => $subscribed];
 	}
 	
+	public function artworkImage() {
+		$show = Podcast::all()->random(1);
+		$image = $show->image_url;
+		$link = $show->resource;
+		$data = [ "image" => $image, "resource" => $link];
+		return json_encode($data, JSON_UNESCAPED_SLASHES);
+	}
 }
