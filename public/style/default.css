@@ -127,8 +127,14 @@ div#loader {
 	background-color: #ebf3f9;
 }
 
+.item > a {
+	display: inline-block;
+	height: auto;
+	overflow: hidden;
+}
+
 .item > a > img {
-	width: 38%;
+	width: 60%;
 }
 
 .icon-prev {

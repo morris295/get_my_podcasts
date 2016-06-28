@@ -27,9 +27,9 @@
 		<div class="panel-heading">
 			<h3>{{$show->title}}</h3>
 		</div>
-<!-- 		<div class="panel-body"> -->
-<!-- 			<p>{{$show->description}}</p> -->
-<!-- 		</div> -->
+ 		<div class="panel-body">
+ 			<p>{{$show->description}}</p>
+ 		</div>
 		<table class="table table-responsive" id="episode-table">
 			<tr>
 				<th colspan="4">Recent Episodes</th>

@@ -15,7 +15,7 @@ class CreatePodcastTable extends Migration
         Schema::create('podcasts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title')->unique();
-            $table->string('description');
+            $table->longText('description');
             $table->string('copyright');
             $table->string('subtitle');
             $table->longText('image_url');

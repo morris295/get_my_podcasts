@@ -79,7 +79,7 @@ class AsyncController extends Controller {
 	private function getTopShows() {
 	
 		$lastUpdated = new DateTime(Podcast::where("top_show", 1)->max("last_top_show_date"));
-		$sevenDaysAgo = new DateTime("-3 days");
+		$sevenDaysAgo = new DateTime("-7 days");
 		$interval = $lastUpdated->diff($sevenDaysAgo);
 		
  		$topShows = [];

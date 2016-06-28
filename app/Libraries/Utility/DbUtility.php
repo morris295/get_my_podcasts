@@ -22,6 +22,7 @@ class DbUtility {
 			$show->title = $podcastDetails["title"];
 			$image = isset($podcastDetails["image_files"][0]["url"]["full"]) ? $podcastDetails["image_files"][0]["url"]["full"] : "";
 			$show->image_url = $image;
+			$show->description = $podcastDetails["description"];
 			$show->explicit = 0;
 			$show->last_published = date("Y-m-d H:i:s");
 			$show->top_show = $topShow;
@@ -31,7 +32,11 @@ class DbUtility {
 			$show->total_episodes = isset($podcastDetails["number_of_episodes"]) ? $podcastDetails["number_of_episodes"] : 0;
 			$show->save();
 		} else {
-			Podcast::where("title", $podcastDetails["title"])->update(["last_top_show_date" => date("Y-m-d H:i:s")]);
+			$image = isset($podcastDetails["image_files"][0]["url"]["full"]) ? $podcastDetails["image_files"][0]["url"]["full"] : "";
+			Podcast::where("title", $podcastDetails["title"])->update([
+					"last_top_show_date" => date("Y-m-d H:i:s"),
+					"image_url" => $image,
+					"description" => $podcastDetails["description"]]);
 		}
 		
 		return $show;
