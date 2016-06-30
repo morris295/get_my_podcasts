@@ -22,7 +22,7 @@ class DbUtility {
 			$show->title = $podcastDetails["title"];
 			$image = isset($podcastDetails["image_files"][0]["url"]["full"]) ? $podcastDetails["image_files"][0]["url"]["full"] : "";
 			$show->image_url = $image;
-			$show->description = $podcastDetails["description"];
+			$show->description = isset($podcastDetails["description"]) ? $podcastDetails["description"] : "";
 			$show->explicit = 0;
 			$show->last_published = date("Y-m-d H:i:s");
 			$show->top_show = $topShow;

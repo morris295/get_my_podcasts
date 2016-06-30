@@ -6376,7 +6376,7 @@ button.close {
 .carousel-control .icon-next,
 .carousel-control .glyphicon-chevron-right {
   right: 50%;
-  margin-right: -13px;
+  margin-right: 15px;
 }
 .carousel-control .icon-prev,
 .carousel-control .icon-next {

@@ -1,5 +1,6 @@
-@extends('layout.accountmaster') @section('title', 'My Account - Get My
-Podcasts!') @section('content')
+@extends('layout.accountmaster') @section('title', 'My Account - Get My Podcasts!')
+
+@section('content')
 <h3>Your Subscriptions</h3>
 <div class="col-md-12" class="subscription-container">
 	<div class="row">

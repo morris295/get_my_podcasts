@@ -38,7 +38,7 @@
 </header>
 </div>
 <div class="col-md-12">
-	<form method="get" action="{{URL::to('/')}}/search">
+	<form method="get" action="{{URL::to('/')}}/search" id="front-search">
 		<div class="input-group stylish-input-group">
 			<input type="text" id="search" placeholder="Search..."
 				class="form-control" name="term" /> <span class="input-group-addon">

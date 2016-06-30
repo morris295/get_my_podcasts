@@ -226,6 +226,7 @@ class AsyncController extends Controller {
 				$episodeListing = ApiUtility::getEpisode($episodeId);
 				$episode = DbUtility::insertEpisode($podcastId, $episodeListing);
 				$episode["episode_num"] = $i+1;
+				$episode["length"] = gmdate("H:i:s", $episodeListing["duration"]);
 			} else {
 				$episode = [
 						"title"=>$dbEpisode->title,

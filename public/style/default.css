@@ -117,6 +117,10 @@ audio {
 	width: 30%;
 }
 
+div#show-artwork > img {
+	width: 40%;
+}
+
 div#loader {
 	text-align: center;
 }

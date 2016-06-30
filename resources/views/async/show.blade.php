@@ -1,4 +1,4 @@
-<div class="jumbotron">
+<div class="jumbotron" id="show-artwork">
 	<image class="img-responsive" src="{{$image}}" />
 	<!--<p class="show-description">{{$show["description"]}}</p>-->
 	<p></p>
@@ -13,8 +13,8 @@
 	</div>
 	@else
 	<div>
-		<input type="hidden" id="sub-show-id" s value="{{$podcastId}}" /> <input
-			type="hidden" id="sub-user-id" value="{{Auth::id()}}" />
+		<input type="hidden" id="sub-show-id" s value="{{$podcastId}}" /> 
+		<input type="hidden" id="sub-user-id" value="{{Auth::id()}}" />
 		<button class="btn btn-default subbed-button" id="unsubscribe">
 			Subscribed &nbsp; <span class="glyphicon glyphicon-ok"
 				id="sub-btn-icon"></span>
@@ -27,9 +27,9 @@
 		<div class="panel-heading">
 			<h3>{{$show->title}}</h3>
 		</div>
- 		<div class="panel-body">
- 			<p>{{$show->description}}</p>
- 		</div>
+		<div class="panel-body">
+			<p>{{$show->description}}</p>
+		</div>
 		<table class="table table-responsive" id="episode-table">
 			<tr>
 				<th colspan="4">Recent Episodes</th>
@@ -38,11 +38,12 @@
 			<tr>
 				<td>{{$episode["title"]}}</td>
 				<td>{{$episode["length"]}}</td>
-				<td><a href="#/"> <span
+				<td><a href="#/"> <span 
 						id="play-episode-{{$episode['episode_num']}}"
 						data-value="{{$episode['source']}}"
 						data-episodeTitle="{{$episode['title']}}"
-						class="glyphicon glyphicon-play"> </span>
+						class="glyphicon glyphicon-play">
+						</span>
 				</a></td>
 			</tr>
 			@endforeach
