@@ -50,7 +50,7 @@
 		    	Nothing playing:
 		    </span>
 		    <span class="navbar-text audio-control">
-		    	<audio id="player" controls>
+		    	<audio id="player" preload="auto" controls>
 					<source id="mpeg-source" src="" type="audio/mpeg">
 				</audio>
 		    </span>

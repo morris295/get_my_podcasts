@@ -37,7 +37,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	$('[id^=unsub-show-]').click(function(e) {
+	$(document).on('click', '[id^=unsub-show-]', function(e) {
 		
 		var endpoint = "";
 		

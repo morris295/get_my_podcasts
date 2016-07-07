@@ -15,7 +15,7 @@
 	<div>
 		<input type="hidden" id="sub-show-id" s value="{{$podcastId}}" /> 
 		<input type="hidden" id="sub-user-id" value="{{Auth::id()}}" />
-		<button class="btn btn-default subbed-button" id="unsubscribe">
+		<button class="btn btn-default subbed-button" id="unsub-show-{{$podcastId}}">
 			Subscribed &nbsp; <span class="glyphicon glyphicon-ok"
 				id="sub-btn-icon"></span>
 		</button>
