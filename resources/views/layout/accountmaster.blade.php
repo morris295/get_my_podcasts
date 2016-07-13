@@ -7,8 +7,8 @@
 	    <meta name="csrf-token" content="{{csrf_token()}}">
 		<title>@yield('title')</title>
 		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/bower_components/bootstrap/dist/css/bootstrap.css" />
-		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/style/default.css" />
-		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/style/paper.css" />
+		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/style/default.min.css" />
+		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/style/paper.min.css" />
 		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/Alertify/themes/alertify.core.css" />
 		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/Alertify/themes/alertify.default.css" />
 		<link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/Alertify/themes/alertify.bootstrap.css" />

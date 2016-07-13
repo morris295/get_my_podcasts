@@ -30,7 +30,7 @@
 <script src="{{URL::to('/')}}/Alertify/src/alertify.js"></script>
 @endsection
 @section('scripts')
-<script src="{{URL::to('/')}}/subscribe.js"></script>
-<script src="{{URL::to('/')}}/async-ops.js"></script>
-<script src="{{URL::to('/')}}/audio.js"></script>
+<script src="{{URL::to('/')}}/js/subscribe.min.js"></script>
+<script src="{{URL::to('/')}}/js/async-ops.min.js"></script>
+<script src="{{URL::to('/')}}/js/audio.min.js"></script>
 @endsection
