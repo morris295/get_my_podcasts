@@ -12,6 +12,7 @@ use App\Model\subscription;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Pagination\Paginator;
 use \DateTime;
 
 class AsyncController extends Controller {
@@ -46,7 +47,7 @@ class AsyncController extends Controller {
 		$user = Input::get("user_id");
 		$show = Input::get("podcast_id");
 	
-		subscription::create(["user_id" => $user, "podcast_id" => $show]);
+		DbUtility::subscribeUser($show, $user);
 	
 		return json_encode(["code" => 200, "message" => "", "data" => ""]);
 	}
@@ -58,7 +59,7 @@ class AsyncController extends Controller {
 		$user = Input::get("user_id");
 		$show = Input::get("podcast_id");
 	
-		subscription::where(["user_id" => $user, "podcast_id" => $show])->delete();
+		DbUtility::unsubscribeUser($show, $user);
 	
 		return json_encode(["code" => 200, "message" => "", "data" => ""]);
 	}
@@ -68,9 +69,29 @@ class AsyncController extends Controller {
 	 * @param unknown $id
 	 */
 	public function refreshSubscription($id) {
-		$data = $this->getRecentEpisodes($id);
+		$data = $this->refreshShow($id);
 		
 		return View::make('async.subscription.episodes', $data)->render();
+	}
+	
+	public function artworkImage() {
+		$show = Podcast::all()->random(1);
+		$image = $show->image_url;
+		$link = $show->resource;
+		$data = [ "image" => $image, "resource" => $link];
+		return json_encode($data, JSON_UNESCAPED_SLASHES);
+	}
+	
+	public function getAllPodcastEpisodes($id) {
+		$data = $this->getAllEpisodes($id);
+		
+		//return View::make('async.episodes', $data)->render();
+		return $data;
+	}
+	
+	public function getEpisodePages($id, $page) {
+		$data = $this->getPagedEpisodes($id, $page);
+		return View::make('async.episodes', $data)->render();
 	}
 	
 	/**
@@ -96,7 +117,7 @@ class AsyncController extends Controller {
 			foreach($topShowsResponse["shows"] as $show) {
 				
 				$showDetails = ApiUtility::getPodcast($show["id"]);
-				DbUtility::insertPodcast($showDetails, 1, 0);
+				DbUtility::insertTopPodcast($showDetails, 1, 0);
 				$show = [
 						"as_id" => $showDetails["id"],
 						"title" => $showDetails["title"],
@@ -114,7 +135,7 @@ class AsyncController extends Controller {
 			foreach($tastemakerResponse["results"] as $show) {
 				
 				$showDetails = ApiUtility::getPodcast($show["id"]);
-				DbUtility::insertPodcast($showDetails, 0, 1);
+				DbUtility::insertTopPodcast($showDetails, 0, 1);
 				$show = [
 						"as_id" => $showDetails["id"],
 						"title" => $showDetails["title"],
@@ -125,26 +146,18 @@ class AsyncController extends Controller {
 				
 			}
 		} else {
-			$topShows = Podcast::where("top_show", 1)
-								->orderBy('last_top_show_date', 'desc')
-								->take(10)
-								->get()
-								->toArray();
-			$tastemakers = Podcast::where("tastemaker", 1)
-								->orderBy('last_top_show_date', 'desc')
-								->take(10)
-								->get()
-								->toArray();
+			$topShows = DbUtility::getTopShows();
+			$tastemakers = DbUtility::getTastemakers();
 		}
 		
-			return ["topShows" => $topShows, "tastemakers" => $tastemakers];
+		return ["topShows" => $topShows, "tastemakers" => $tastemakers];
 	}
 	
 	/**
 	 * Get an individual show's data and its most recent episodes 
 	 * @param integer $id
 	 */
-	private function getRecentEpisodes($id) {
+	private function refreshShow($id) {
 	
 		// Check if the podcast is in the DB.
 		$show = Podcast::where("id", $id)->first();
@@ -177,54 +190,57 @@ class AsyncController extends Controller {
 		return ["episodes" => $episodes];
 	}
 	
-	private function getShow($id) {
+ 	private function getShow($id) {
 		
-		$subscribed = false;
+  		$subscribed = false;
 		
-		// Check if the podcast is in the DB.
-		$show = Podcast::where("as_id", $id)->first();
+  		// Check if the podcast is in the DB.
+  		$dbPodcast = Podcast::where("as_id", $id)->first();
 		
-		if (Auth::check()) {
-			$userId = Auth::id();
+  		if (Auth::check()) {
+  			$userId = Auth::id();
+		
+  			$subscribed = false;
+  			$isSubbed = null;
 			
-			$subscribed = false;
-			$isSubbed = null;
-			
-			if ($show == null) {
-				$subscribed = false;
-			} else {
-				$isSubbed = subscription::where(["user_id" => $userId, "podcast_id" => $show->id])->first();
-				$subscribed = ($isSubbed !== null) ? true : false;
-			}
-		}
+  			if ($dbPodcast == null) {
+  				$subscribed = false;
+  			} else {
+  				$isSubbed = subscription::where(["user_id" => $userId, "podcast_id" => $dbPodcast->id])->first();
+  				$subscribed = ($isSubbed !== null) ? true : false;
+  			}
+  		}
 		
-		// Retrieve podcast details from API.
-		$podcast = ApiUtility::getPodcast($id);
+  		// Retrieve podcast details from API.
+  		$wsPodcast = ApiUtility::getPodcast($id);
+		$dbPodcast = DbUtility::insertPodcast($wsPodcast);
 		
-		// If the podcast is not in the DB
-		// save it in the DB.
-		if ($show === null) {
-			$show = DbUtility::insertPodcast($podcast);
-		}
+  		// Get the id of the podcast.
+  		$podcastId = $dbPodcast->id;
 		
-		// Get the id of the podcast.
-		$podcastId = $show->id;
+  		$image = ($dbPodcast === null) ? $wsPodcast["image_files"][0]["url"]["full"] : $dbPodcast->image_url;
 		
-		$image = ($show === null) ? $podcast["image_files"][0]["url"]["full"] : $show->image_url;
+  		$episodes = $this->getRecentEpisodes($id, $dbPodcast, $wsPodcast, $podcastId);
+ 		
+ 		return ["show" => $dbPodcast, "image" => $image, "episodes" => $episodes, "podcastId" => $podcastId, "subscribed" => $subscribed];
+ 	}
+	
+	private function getRecentEpisodes($id, $dbPodcast, $wsPodcast, $dbPodcastId) {
+		
 		$episodes = [];
-		$totalEpisodes = $show->total_episodes;
+		$totalEpisodes = $dbPodcast->total_episodes;
 		$filesToGet = ($totalEpisodes > 10) ? 10 : $totalEpisodes;
 		
 		for ($i = 0; $i<$filesToGet; $i++) {
-				
-			$episodeId = $podcast["episode_ids"][$i];
-				
+		
+			$episodeId = $wsPodcast["episode_ids"][$i];
+		
 			$dbEpisode = Episode::where("as_id", $episodeId)->first();
 			$episode = null;
-				
+		
 			if ($dbEpisode === null) {
 				$episodeListing = ApiUtility::getEpisode($episodeId);
-				$episode = DbUtility::insertEpisode($podcastId, $episodeListing);
+				$episode = DbUtility::insertEpisode($dbPodcastId, $episodeListing);
 				$episode["episode_num"] = $i+1;
 				$episode["length"] = gmdate("H:i:s", $episodeListing["duration"]);
 			} else {
@@ -236,18 +252,66 @@ class AsyncController extends Controller {
 						"length"=>gmdate("H:i:s", $dbEpisode->duration)
 				];
 			}
-				
+		
 			array_push($episodes, $episode);
 		}
 		
-		return ["show" => $show, "image" => $image, "episodes" => $episodes, "podcastId" => $podcastId, "subscribed" => $subscribed];
+		return $episodes;
 	}
 	
-	public function artworkImage() {
-		$show = Podcast::all()->random(1);
-		$image = $show->image_url;
-		$link = $show->resource;
-		$data = [ "image" => $image, "resource" => $link];
-		return json_encode($data, JSON_UNESCAPED_SLASHES);
+	private function getAllEpisodes($id) {
+		
+		$show = Podcast::where("as_id", $id)->first();
+				
+		// Retrieve podcast details from API.
+		$wsPodcast = ApiUtility::getPodcast($show->as_id);
+		$wsEpisodes = $wsPodcast["episode_ids"];
+		
+		//Diff current catalogue against web service catalogue.
+		if ($show !== null) {
+			$storedEpisodes = Episode::where("podcast_id", $show->id)->get();
+			foreach ($storedEpisodes as $episode) {
+				if (in_array($episode->as_id, $wsEpisodes)) {
+					$key = array_search($episode->as_id, $wsEpisodes);
+					unset($wsEpisodes[$key]);
+				}
+			}
+		}
+		
+		$totalEpisodes = count($wsEpisodes);
+		
+		if ($totalEpisodes > 0) {
+			foreach ($wsEpisodes as $episode) {
+				$episodeListing = ApiUtility::getEpisode($episode);
+				$episode = DbUtility::insertEpisode($show->id, $episodeListing);
+			}
+		}
+		
+		return json_encode(["code" => 200, "message" => "successfully updated episode catalogue"]);
+	}
+	
+	private function getPagedEpisodes($id, $page) {
+		
+		Paginator::currentPageResolver(function () use ($page) {
+        	return $page;
+    	});
+		
+		$page = [];
+		$podcast = Podcast::where("as_id", $id)->first();
+		$episodes = Episode::where("podcast_id", $podcast->id)->paginate(10);
+		$i = 0;
+		
+		foreach ($episodes as $episode) {
+			$item = [
+						"title"=>$episode->title,
+						"description"=>$episode->description,
+						"source"=>$episode->source,
+						"episode_num"=>$i+1,
+						"length"=>gmdate("H:i:s", $episode->duration)
+				];
+			array_push($page, $item);
+		}
+		
+		return ["episodes" => $page];
 	}
 }

@@ -46,5 +46,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get("/index/content", "AsyncController@getIndexContent");
     Route::get("/subscription/refresh/{id}", "AsyncController@refreshSubscription");
     Route::get("/show/get/{id}", "AsyncController@getShowContent");
+    Route::get("/show/episodes/{id}", "AsyncController@getAllPodcastEpisodes");
+    Route::get("/show/episodes/paged/{id}/{page}", "AsyncController@getEpisodePages");
     
 });

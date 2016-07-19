@@ -1,3 +1,6 @@
+var config = new Configuration();
+var async = new Async();
+
 var setSubscribed = function(element) {
 	element.attr('disabled', true);
 	element.html("Subscribed");
@@ -9,31 +12,17 @@ $(document).ready(function() {
 	$(document).on('click', "#subscribe", function() {
 		console.log(window.location.host);
 		
-		var endpoint = "";
 		
-		if (window.location.host.indexOf('localhost') !== -1) {
-			endpoint = "/get_my_podcasts/public/account/subscribe";
-		} else {
-			endpoint = "/account/subscribe";
-		}
+		endpoint = config.getBaseUrl() + "account/subscribe";
 		
 		var userId = $("#sub-user-id").val();
 		var podcastId = $("#sub-show-id").val();
 		var token = $('meta[name="csrf-token"]').attr("content");
 		alertify.set({delay: 5000 });
-		$.ajax({
-			url: endpoint,
-			headers: {
-			  'X-CSRF-TOKEN': token
-			},
-			method: "POST",
-			data: { "user_id": userId, "podcast_id": podcastId }
-		}).success(function(response) {
+		
+		async.sendRequest(endpoint, "POST", function(result) {
 			alertify.success("You've subscribed!");
 			setSubscribed($("#subscribe"));
-		}).fail(function(err) {
-			alertify.error("An error occurred.");
-			alertify.log(err.message);
 		});
 	});
 	
@@ -41,11 +30,7 @@ $(document).ready(function() {
 		
 		var endpoint = "";
 		
-		if (window.location.host === 'localhost') {
-			endpoint = "/get_my_podcasts/public/account/unsubscribe";
-		} else {
-			endpoint = "/account/unsubscribe";
-		}
+		endpoint = config.getBaseUrl() + "account/unsubscribe";
 		
 		var buttonClicked = $(this);
 		
@@ -57,19 +42,9 @@ $(document).ready(function() {
 				var userId = $("#unsub-"+value+"-user-id").val();
 				var token = $('meta[name="csrf-token"]').attr("content");
 				alertify.set({delay: 5000 });
-				$.ajax({
-					url: endpoint,
-					headers: {
-					  'X-CSRF-TOKEN': token
-					},
-					method: "POST",
-					data: { "user_id": userId, "podcast_id": podcastId }
-				}).success(function(response) {
-					alertify.success("Unsubscribed");		
-				}).fail(function(err) {
-					console.log(err.responseText);
-					alertify.error("An error occurred.");
-					alertify.log(err);
+				
+				async.sendRequest(endpoint, "POST", function(result) {
+					alertify.success("Unsubscribed");
 				});
 			}
 		});

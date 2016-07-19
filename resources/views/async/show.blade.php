@@ -13,9 +13,9 @@
 	</div>
 	@else
 	<div>
-		<input type="hidden" id="sub-show-id" s value="{{$podcastId}}" /> 
-		<input type="hidden" id="sub-user-id" value="{{Auth::id()}}" />
-		<button class="btn btn-default subbed-button" id="unsub-show-{{$podcastId}}">
+		<input type="hidden" id="sub-show-id" value="{{$podcastId}}" /> <input
+			type="hidden" id="sub-user-id" value="{{Auth::id()}}" />
+		<button class="btn btn-default subbed-button" id="unsubscribe">
 			Subscribed &nbsp; <span class="glyphicon glyphicon-ok"
 				id="sub-btn-icon"></span>
 		</button>
@@ -38,15 +38,17 @@
 			<tr>
 				<td>{{$episode["title"]}}</td>
 				<td>{{$episode["length"]}}</td>
-				<td><a href="#/"> <span 
+				<td><a href="#/"> <span
 						id="play-episode-{{$episode['episode_num']}}"
 						data-value="{{$episode['source']}}"
 						data-episodeTitle="{{$episode['title']}}"
-						class="glyphicon glyphicon-play">
-						</span>
+						class="glyphicon glyphicon-play"> </span>
 				</a></td>
 			</tr>
 			@endforeach
+			<tr>
+				<td colspan="3"><a href="#/" id="load-all">Load more episodes</a></td>
+			</tr>
 		</table>
 	</div>
 </div>

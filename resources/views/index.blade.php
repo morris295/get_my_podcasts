@@ -62,8 +62,9 @@
 <script
 	src="{{URL::to('/')}}/bower_components/bootstrap/dist/js/bootstrap.js"></script>
 <script src="{{URL::to('/')}}/Alertify/src/alertify.js"></script>
-@endsection @section('scripts')
-<script src="{{URL::to('/')}}/subscribe.js"></script>
-<script src="{{URL::to('/')}}/async-ops.js"></script>
-<script src="{{URL::to('/')}}/audio.js"></script>
+@section('scripts')
+<script src="{{URL::to('/')}}/js/src/config.js"></script>
+<script src="{{URL::to('/')}}/js/src/async.js"></script>
+<script src="{{URL::to('/')}}/js/actions.js"></script>
+<script src="{{URL::to('/')}}/js/index.js"></script>
 @endsection
