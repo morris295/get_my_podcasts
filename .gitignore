@@ -12,3 +12,8 @@ storage/
 .env.php
 .env
 .env.example
+
+# Eclipse development environment files.
+.settings
+.project
+.buildpath
