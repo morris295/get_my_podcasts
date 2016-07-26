@@ -27,6 +27,7 @@ Route::controllers ( [
  */
 
 Route::get ( "/artwork", "AsyncController@artworkImage" );
+Route::get ( "/artwork/refresh/{id}", "AsyncController@recoverArtwork");
 
 Route::group ( [ 
 		'middleware' => 'web' 

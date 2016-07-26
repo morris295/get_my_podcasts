@@ -7,7 +7,7 @@
 		@foreach ($topShows as $show)
 		<tr>
 			<td class="artwork"><a href="shows/{{$show['as_id']}}"><img
-					class="img-responsive" src="{{$show['image_url']}}"></a></td>
+					class="img-responsive" src="{{$show['image_url']}}" data-value="{{$show['as_id']}}"></a></td>
 			<td><a href="shows/{{$show['as_id']}}">{{$show["title"]}}</a></td>
 		</tr>
 		@endforeach
@@ -21,7 +21,7 @@
 		@foreach ($tastemakers as $show)
 		<tr>
 			<td class="artwork"><a href="shows/{{$show['as_id']}}"><img
-					class="img-responsive" src="{{$show['image_url']}}"></a></td>
+					class="img-responsive" src="{{$show['image_url']}}" data-value="{{$show['as_id']}}"></a></td>
 			<td><a href="shows/{{$show['as_id']}}">{{$show["title"]}}</a></td>
 		</tr>
 		@endforeach

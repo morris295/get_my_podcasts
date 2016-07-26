@@ -92,15 +92,27 @@ class AsyncController extends Controller {
 		];
 		return json_encode ( $data, JSON_UNESCAPED_SLASHES );
 	}
+	
 	public function getAllPodcastEpisodes($id) {
 		$data = $this->getAllEpisodes ( $id );
 		
 		// return View::make('async.episodes', $data)->render();
 		return $data;
 	}
+	
 	public function getEpisodePages($id, $page) {
 		$data = $this->getPagedEpisodes ( $id, $page );
 		return View::make ( 'async.episodes', $data )->render ();
+	}
+	
+	public function recoverArtwork($id) {
+		$imgSource = $this->refreshArtwork($id);
+		$data = [
+			"code" => 200,
+			"image" => $imgSource,
+			"message" => "Image recovered successfully"
+		];
+		return json_encode($data, JSON_UNESCAPED_SLASHES);
 	}
 	
 	/**
@@ -336,5 +348,14 @@ class AsyncController extends Controller {
 		return [ 
 				"episodes" => $page 
 		];
+	}
+	
+	private function refreshArtwork($id) {
+		$podcastData = ApiUtility::getPodcast($id);
+		$image = $podcastData["image_files"][0]["url"]["full"];
+		if ($image) {
+			DbUtility::updateArtwork($id, $image);
+			return $image;
+		}
 	}
 }

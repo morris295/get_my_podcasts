@@ -62,6 +62,7 @@
 @section('scripts')
 <script src="{{URL::to('/')}}/js/lib/config.js"></script>
 <script src="{{URL::to('/')}}/js/lib/async.js"></script>
+<script src="{{URL::to('/')}}/js/img-handler.js"></script>
 <script src="{{URL::to('/')}}/js/actions.js"></script>
 <script src="{{URL::to('/')}}/js/index.js"></script>
 @endsection

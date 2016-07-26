@@ -51,6 +51,11 @@ html {
 	
 }
 
+#search {
+	margin-left: 15px;
+	width: 100%;
+}
+
 #search-results {
 	text-align: left; !
 	important list-style-type: none;

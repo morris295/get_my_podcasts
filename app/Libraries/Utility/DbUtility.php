@@ -99,23 +99,28 @@ class DbUtility {
 				"source" => $episode->source 
 		];
 	}
+	
 	public static function getTopShows() {
 		return Podcast::where ( "top_show", 1 )->orderBy ( 'last_top_show_date', 'desc' )->take ( 10 )->get ()->toArray ();
 	}
+	
 	public static function getTastemakers() {
 		return Podcast::where ( "tastemaker", 1 )->orderBy ( 'last_top_show_date', 'desc' )->take ( 10 )->get ()->toArray ();
 	}
+	
 	public static function updateArtwork($asId, $image) {
 		Podcast::where ( "as_id", $asId )->update ( [ 
 				"image_url" => $image 
 		] );
 	}
+	
 	public static function subscribeUser($podcastId, $userId) {
 		subscription::create ( [ 
 				"user_id" => $userId,
 				"podcast_id" => $podcastId 
 		] );
 	}
+	
 	public static function unsubscribeUser($podcastId, $userId) {
 		subscription::where ( [ 
 				"user_id" => $userId,
