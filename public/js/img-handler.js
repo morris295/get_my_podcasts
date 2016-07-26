@@ -3,7 +3,7 @@ var async = new Async();
 
 $(document).ajaxComplete(function() {
 	$("img").on("error", function(event) {
-		var endpoint = config.getBaseUrl() + '/artwork/refresh/' + $(event.target).attr('data-value');
+		var endpoint = config.getBaseUrl() + 'artwork/refresh/' + $(event.target).attr('data-value');
 		
 		async.sendRequest(endpoint, "GET").success(function(result) {
 			var data = JSON.parse(result);

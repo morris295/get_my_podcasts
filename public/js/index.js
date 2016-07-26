@@ -24,6 +24,7 @@ $(document).ready(function() {
 					var link = carouselItems[item].children[0];
 					link.href = baseUrl + data.resource;
 					link.children[0].src = data.image;
+					$(link.children[0]).attr('data-value', data.dataValue);
 					$("#myCarousel").show();
 					$("#front-search").show();
 				}).error(function(err) {

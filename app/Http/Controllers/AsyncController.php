@@ -82,13 +82,16 @@ class AsyncController extends Controller {
 		
 		return View::make ( 'async.subscription.episodes', $data )->render ();
 	}
+	
 	public function artworkImage() {
-		$show = Podcast::all ()->random ( 1 );
+		$show = Podcast::all()->random(1);
 		$image = $show->image_url;
 		$link = $show->resource;
+		$metaId = $show->as_id;
 		$data = [ 
 				"image" => $image,
-				"resource" => $link 
+				"resource" => $link,
+				"dataValue" => $metaId
 		];
 		return json_encode ( $data, JSON_UNESCAPED_SLASHES );
 	}

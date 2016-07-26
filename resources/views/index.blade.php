@@ -13,15 +13,15 @@
 	<!-- Wrapper for slides -->
 	<div class="carousel-inner">
 		<div class="item active">
-			<a href=""> <img src="" />
+			<a href=""> <img src="" data-value="" />
 			</a>
 		</div>
 		<div class="item">
-			<a href=""> <img src="" />
+			<a href=""> <img src="" data-value="" />
 			</a>
 		</div>
 		<div class="item">
-			<a href=""> <img src="" />
+			<a href=""> <img src="" data-value="" />
 			</a>
 		</div>
 	</div>
