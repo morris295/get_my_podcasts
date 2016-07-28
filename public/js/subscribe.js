@@ -17,11 +17,12 @@ $(document).ready(function() {
 		var userId = $("#sub-user-id").val();
 		var podcastId = $("#sub-show-id").val();
 		var token = $('meta[name="csrf-token"]').attr("content");
+		data = { "user_id": userId, "podcast_id": podcastId };
 		alertify.set({
 			delay : 5000
 		});
 
-		async.sendRequest(endpoint, "POST").success(function(result) {
+		async.sendRequest(endpoint, "POST", token, data).success(function(result) {
 			alertify.success("You've subscribed!");
 			setSubscribed($("#subscribe"));
 		}).error(function(err) {
@@ -46,11 +47,12 @@ $(document).ready(function() {
 				var podcastId = $("#unsub-" + value + "-podcast-id").val();
 				var userId = $("#unsub-" + value + "-user-id").val();
 				var token = $('meta[name="csrf-token"]').attr("content");
+				data = { "user_id": userId, "podcast_id": podcastId };
 				alertify.set({
 					delay : 5000
 				});
 
-				async.sendRequest(endpoint, "POST").success(function(result) {
+				async.sendRequest(endpoint, "POST", token, data).success(function(result) {
 					alertify.success("Unsubscribed");
 				}).error(function(err) {
 					console.log(err.status + " " + err.statusText);
