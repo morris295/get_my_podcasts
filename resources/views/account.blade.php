@@ -9,7 +9,7 @@ Podcasts!') @section('content')
 				<div class="no-select" id="show-{{$sub->podcast_num}}"
 					data-value="{{$sub->podcast_num}}">
 					<p>{{$sub->title}}</p>
-					<img class="sub-artwork" src="{{$sub->image_url}}" />
+					<img class="sub-artwork" src="{{$sub->image_url}}" data-value="{{$sub->as_id}}" />
 				</div>
 				<div class="caption" id="episodes-{{$sub->podcast_num}}">
 					<div class="row">
@@ -69,5 +69,6 @@ Podcasts!') @section('content')
 <script src="{{URL::to('/')}}/js/subscribe.js"></script>
 <script src="{{URL::to('/')}}/js/account.js"></script>
 <script src="{{URL::to('/')}}/js/audio.js"></script>
+<script src="{{URL::to('/')}}/js/img-handler.js"></script>
 @endsection
 

@@ -22,7 +22,7 @@ class AccountController extends Controller {
 		] );
 	}
 	private function getSubscriptions($id) {
-		return DB::table ( 'subscriptions' )->join ( 'users', 'users.id', '=', 'subscriptions.user_id' )->join ( 'podcasts', 'podcasts.id', '=', 'subscriptions.podcast_id' )->where ( 'subscriptions.user_id', $id )->select ( 'podcasts.id', 'podcasts.title', 'podcasts.image_url' )->get ();
+		return DB::table ( 'subscriptions' )->join ( 'users', 'users.id', '=', 'subscriptions.user_id' )->join ( 'podcasts', 'podcasts.id', '=', 'subscriptions.podcast_id' )->where ( 'subscriptions.user_id', $id )->select ( 'podcasts.id', 'podcasts.title', 'podcasts.image_url', 'podcasts.as_id' )->get ();
 	}
 	private function compileShows($shows) {
 		$compiledShows = [ ];
@@ -37,6 +37,7 @@ class AccountController extends Controller {
 			$podcast->title = $show->title;
 			$podcast->image_url = $show->image_url;
 			$podcast->podcast_num = $i;
+			$podcast->as_id = $show->as_id;
 			$podcast->episodes = [ ];
 			
 			foreach ( $episodes as $episode ) {
