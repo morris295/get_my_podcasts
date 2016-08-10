@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
+
 class CreatePodcastTable extends Migration
 {
 	/**
@@ -40,5 +42,3 @@ class CreatePodcastTable extends Migration
 		Schema::drop('podcasts');
 	}
 }
-Contact GitHub API Training Shop Blog About
-© 2016 GitHub, Inc. Terms Privacy Security Status Help
