@@ -10,7 +10,7 @@
 	"type": "project",
 	"require": {
 		"php": ">=5.5.9",
-		"laravel/framework": "5.2.*",
+		"laravel/framework": "5.2.36",
 		"rmccue/Requests": "^1.6"
 	},
 	"require-dev": {

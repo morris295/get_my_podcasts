@@ -193,7 +193,7 @@ class AsyncController extends Controller {
 		
 		$episodes = [ ];
 		$totalEpisodes = $podcast ["number_of_episodes"];
-		$filesToGet = ($totalEpisodes > 5) ? 5 : $totalEpisodes;
+		$filesToGet = ($totalEpisodes > 10) ? 10 : $totalEpisodes;
 		
 		for($i = 0; $i < $filesToGet; $i ++) {
 			
@@ -204,9 +204,9 @@ class AsyncController extends Controller {
 			$episode = DbUtility::insertEpisode ( $id, $episodeListing );
 			
 			$episodeItem = [ 
-					"title" => $episode ["title"],
-					"description" => $episode ["description"],
-					"source" => $episode ["source"],
+					"title" => $episode["title"],
+					"description" => $episode["description"],
+					"source" => $episode["source"],
 					"episode_num" => $i + 1 
 			];
 			

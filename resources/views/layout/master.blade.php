@@ -13,6 +13,8 @@
 <link rel="stylesheet" type="text/css"
 	href="{{URL::to('/')}}/style/paper.css" />
 <link rel="stylesheet" type="text/css"
+	href="{{URL::to('/')}}/style/search-results.css" />
+<link rel="stylesheet" type="text/css"
 	href="{{URL::to('/')}}/Alertify/themes/alertify.core.css" />
 <link rel="stylesheet" type="text/css"
 	href="{{URL::to('/')}}/Alertify/themes/alertify.default.css" />

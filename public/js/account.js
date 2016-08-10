@@ -8,7 +8,7 @@ $("[id^=refresh-show-]").click(function() {
 	var value = itemClicked.attr("data-value");
 	var resource = itemClicked.attr("data-resource");
 
-	var contentElement = $("#show-" + value + "-episode-table-wrap");
+	var contentElement = $("#show-" + value + "-episode-wrap");
 	var refreshEndpoint = baseUrl + "subscription/refresh/" + resource;
 
 	contentElement.empty();

@@ -29,9 +29,7 @@ Route::controllers ( [
 Route::get ( "/artwork", "AsyncController@artworkImage" );
 Route::get ( "/artwork/refresh/{id}", "AsyncController@recoverArtwork");
 
-Route::group ( [ 
-		'middleware' => 'web' 
-], function () {
+Route::group (['middleware' => 'web'], function (){
 	
 	Route::auth ();
 	
@@ -50,4 +48,4 @@ Route::group ( [
 	Route::get ( "/show/get/{id}", "AsyncController@getShowContent" );
 	Route::get ( "/show/episodes/{id}", "AsyncController@getAllPodcastEpisodes" );
 	Route::get ( "/show/episodes/paged/{id}/{page}", "AsyncController@getEpisodePages" );
-} );
+});

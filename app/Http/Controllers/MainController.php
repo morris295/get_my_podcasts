@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Libraries\Utility\ApiUtility;
-use App\Libraries\Utility\DbUtility;
-use App\Libraries\Utility\Helper;
 use App\Model\Podcast;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\View;
 
@@ -20,20 +17,21 @@ class MainController extends Controller {
 	 * Return application main page.
 	 */
 	public function index() {
-		return view ( 'index' );
+		return view ('index');
 	}
 	public function about() {
-		return view ( 'about' );
+		return view ('about');
 	}
 	public function contact() {
-		return view ( 'contact' );
+		return view ('contact');
 	}
 	
 	/**
 	 * Search for a podcast.
 	 */
 	public function search() {
-		$searchTerm = Input::get ( "term" );
+		$timeStart = microtime(true);
+		$searchTerm = Input::get ("term");
 		$response = ApiUtility::getSearch ( $searchTerm );
 		$items = [ ];
 		
@@ -45,9 +43,14 @@ class MainController extends Controller {
 			];
 			array_push ( $items, $item );
 		}
+		$timeEnd = microtime(true);
+		$executionTime = $timeEnd - $timeStart;
 		
 		return view ( 'search', [ 
-				"items" => $items 
+				"term" => $searchTerm,
+				"count" => count($items),
+				"items" => $items,
+				"execution" => number_format($executionTime, 2, '.', '')
 		] );
 	}
 }

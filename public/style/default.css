@@ -154,3 +154,20 @@ div#loader-mini {
 .table-responsive>tr>td:nth-child(3) {
 	vertical-align: middle;
 }
+
+.bump-back {
+	margin-right: 25%;
+}
+
+art-icon {
+	width: 85%;
+}
+
+.show-controls {
+	margin-left: -40px
+}
+
+.currently-playing {
+	font-weight: bold;
+	font-style: italic;
+}
