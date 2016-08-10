@@ -63,9 +63,6 @@ Podcasts!') @section('content')
 	src="{{URL::to('/')}}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="{{URL::to('/')}}/Alertify/src/alertify.js"></script>
 @endsection @section('scripts')
-<script src="{{URL::to('/')}}/js/lib/third-party/color-thief.js"></script>
-<script src="{{URL::to('/')}}/js/lib/third-party/colibri.js"></script>
-<script src="{{URL::to('/')}}/js/lib/third-party/jquery.app-folders.js"></script>
 <script src="{{URL::to('/')}}/js/lib/async.js"></script>
 <script src="{{URL::to('/')}}/js/lib/config.js"></script>
 <script src="{{URL::to('/')}}/js/actions.js"></script>
