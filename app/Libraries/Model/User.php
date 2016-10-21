@@ -3,9 +3,8 @@
 namespace App\Libraries\Model;
 
 use App\Libraries\Utility\DbUtility;
-use App\Model\User;
 
-class User {
+class UserWorker {
 	
 	public function __construct() {
 		//Placeholder, may not be necessary to do anything here.

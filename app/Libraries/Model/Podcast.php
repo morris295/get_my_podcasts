@@ -12,7 +12,7 @@ use App\Model\subscription;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 
-class Podcast {
+class PodcastWorker {
 	
 	public function __construct() {
 		ApiUtility::init();

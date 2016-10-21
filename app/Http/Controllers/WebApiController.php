@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Model\subscription;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\View;
-use App\Libraries\Model\Podcast;
-use App\Libraries\Model\User;
+use App\Libraries\Model\PodcastWorker;
+use App\Libraries\Model\UserWorker;
 use \Illuminate\Http\Response;
 
 class WebApiController extends Controller {
@@ -25,8 +25,8 @@ class WebApiController extends Controller {
 	protected $userWorker;
 	
 	public function __construct() {
-		$this->podcastWorker = new Podcast();
-		$this->userWorker = new User();
+		$this->podcastWorker = new PodcastWorker();
+		$this->userWorker = new UserWorker();
 	}
 	
 	/**
