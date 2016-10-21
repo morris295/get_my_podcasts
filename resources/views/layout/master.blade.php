@@ -20,6 +20,8 @@
 	href="{{URL::to('/')}}/Alertify/themes/alertify.default.css" />
 <link rel="stylesheet" type="text/css"
 	href="{{URL::to('/')}}/Alertify/themes/alertify.bootstrap.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/v/jq-2.2.3/dt-1.10.12/datatables.min.css" />
 @yield('js-libs')
 </head>
 <body>

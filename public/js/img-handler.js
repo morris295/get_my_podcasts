@@ -1,22 +1,22 @@
 var config = new Configuration();
 var async = new Async();
 
-var handler = function(event) {
-	var endpoint = config.getBaseUrl() + 'artwork/refresh/' + $(event.target).attr('data-value');
-	
+var missimgImageHandler = function(event) {
+	var endpoint = config.getBaseUrl() + 'artwork/refresh/'
+			+ $(event.target).attr('data-value');
+
 	async.sendRequest(endpoint, "GET").success(function(result) {
-		var data = JSON.parse(result);
+		var data = result;
 		$(event.target).attr('src', data.image);
-	})
-	.error(function(err) {
-		console.log(err.status + " " + err.statusText);
+	}).fail(function(result) {
+		console.log("ID " + $(event.target).attr('data-value') + ": " + result.responseJSON.code + " " + result.responseJSON.message);
 	});
 }
 
 $(document).ready(function() {
-	$("img").on("error", handler);
+	$("img").on("error", missimgImageHandler);
 });
 
 $(document).ajaxComplete(function() {
-	$("img").on("error", handler);
+	$("img").on("error", missimgImageHandler);
 });

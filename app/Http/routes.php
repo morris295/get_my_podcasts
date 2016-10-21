@@ -26,26 +26,28 @@ Route::controllers ( [
  * |
  */
 
-Route::get ( "/artwork", "AsyncController@artworkImage" );
-Route::get ( "/artwork/refresh/{id}", "AsyncController@recoverArtwork");
+Route::get ("/artwork", "WebApiController@artworkImage");
+Route::get ("/artwork/refresh/{id}", "WebApiController@recoverArtwork");
+Route::get("/player/open/{source}", "WebApiController@openPlayer");
 
 Route::group (['middleware' => 'web'], function (){
 	
 	Route::auth ();
 	
-	Route::get ( "/", "MainController@index" );
-	Route::get ( "/about", "MainController@about" );
-	Route::get ( "/contact", "MainController@contact" );
-	Route::get ( "/shows/{id}", "ShowController@getShow" );
-	Route::get ( "/search", "MainController@search" );
-	Route::get ( "/my-account/{id}", "AccountController@index" );
+	Route::get("/", "MainController@index");
+	Route::get("/about", "MainController@about");
+	Route::get("/contact", "MainController@contact");
+	Route::get("/shows/{id}", "ShowController@getShow");
+	Route::get("/search", "MainController@search");
+	Route::get("/my-account/{id}", "AccountController@index");
 	
 	/* Ajax routes */
-	Route::post ( "/account/subscribe", "AsyncController@subscribeUser" );
-	Route::post ( "/account/unsubscribe", "AsyncController@unsubscribeUser" );
-	Route::get ( "/index/content", "AsyncController@getIndexContent" );
-	Route::get ( "/subscription/refresh/{id}", "AsyncController@refreshSubscription" );
-	Route::get ( "/show/get/{id}", "AsyncController@getShowContent" );
-	Route::get ( "/show/episodes/{id}", "AsyncController@getAllPodcastEpisodes" );
-	Route::get ( "/show/episodes/paged/{id}/{page}", "AsyncController@getEpisodePages" );
+	Route::post("/account/subscribe", "WebApiController@subscribeUser");
+	Route::post("/account/unsubscribe", "WebApiController@unsubscribeUser");
+	Route::get("/index/content", "WebApiController@getIndexContent");
+	Route::get("/subscription/refresh/{id}", "WebApiController@refreshSubscription");
+	Route::get("/show/get/{id}", "WebApiController@getShowContent");
+	Route::get("/show/episodes/{id}", "WebApiController@getAllPodcastEpisodes");
+	Route::get("/show/episodes/paged/{id}/{page}", "WebApiController@getEpisodePages");
+	Route::get("/show/episodes/page-count/{id}", "WebApiController@getTotalEpisodePages");
 });

@@ -1,29 +1,31 @@
 {
-	"name": "Get My Podcasts",
-	"homepage": "N/A",
-	"authors": [
-		"Jesse Morris jdm.github@gmail.com"
-	],
-	"description": "A podcatcher built with PHP and Laravel",
-	"main": "index.php",
-	"moduleType": [],
-	"keywords": [
-		"podcasts",
-		"rss",
-		"php",
-		"laravel"
-	],
-	"license": "GNU v2.0",
-	"private": true,
-	"ignore": [
-		"**/.*",
-		"node_modules",
-		"bower_components",
-		"test",
-		"tests"
-	],
-	"dependencies": {
-		"jquery": "^2.2.1",
-		"bootstrap": "^3.3.6"
-	}
+  "name": "Get My Podcasts",
+  "homepage": "N/A",
+  "authors": [
+    "Jesse Morris jdm.github@gmail.com"
+  ],
+  "description": "A podcatcher built with PHP and Laravel",
+  "main": "index.php",
+  "moduleType": [],
+  "keywords": [
+    "podcasts",
+    "rss",
+    "php",
+    "laravel"
+  ],
+  "license": "GNU v2.0",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.1",
+    "bootstrap": "^3.3.6",
+    "datatables.net": "^1.10.12",
+    "datatables.net-bs": "^1.10.12"
+  }
 }

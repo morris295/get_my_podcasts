@@ -1,3 +1,5 @@
+var config = new Configuration();
+
 $(document).ready(function() {
 	var audio = $("#player");
 	var previousPageTitle = $(document).prop('title');
@@ -21,5 +23,20 @@ $(document).ready(function() {
 		audio[0].addEventListener('ended', function() {
 			$(document).prop('title', previousPageTitle);
 		});
+	});
+	
+	$(document).on("click", "#popout", function(e) {
+		e.preventDefault();
+		
+		var episodeSource = encodeURIComponent($("#mpeg-source").attr("src"));
+		var location = config.getBaseUrl() + "player/open/" + episodeSource;
+		
+		if (episodeSource === null || episodeSource === undefined) {
+			alertify.alert("No episode playing.");
+		} else {
+			var win = window.open();
+			win.location = location;
+		}
+		
 	});
 });

@@ -30,25 +30,32 @@
 		<div class="panel-body">
 			<p>{{$show->description}}</p>
 		</div>
-		<table class="table table-responsive" id="episode-table">
-			<tr>
-				<th colspan="4">Recent Episodes</th>
-			</tr>
-			@foreach($episodes as $episode)
-			<tr>
-				<td>{{$episode["title"]}}</td>
-				<td>{{$episode["length"]}}</td>
-				<td><a href="#/"> <span
-						id="play-episode-{{$episode['episode_num']}}"
-						data-value="{{$episode['source']}}"
-						data-episodeTitle="{{$episode['title']}}"
-						class="glyphicon glyphicon-play"> </span>
-				</a></td>
-			</tr>
-			@endforeach
-			<tr>
-				<td colspan="3"><a href="#/" id="load-all">Load more episodes</a></td>
-			</tr>
+		<table class="table table-responsive table-striped dt-responsive nowrap" id="episode-table">
+			<thead>
+				<tr>
+	 				<th>Recent Episodes</th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach($episodes as $episode)
+					<tr>
+						<td>{{$episode["title"]}}</td>
+						<td>{{$episode["published"]}}</td>
+						<td>{{$episode["length"]}}</td>
+						<td>
+							<a href="#/"> <span
+								id="play-episode-{{$episode['episode_num']}}"
+								data-value="{{$episode['source']}}"
+								data-episodeTitle="{{$episode['title']}}"
+								class="glyphicon glyphicon-play"> </span>
+							</a>
+						</td>
+					</tr>
+				@endforeach
+			</tbody>
 		</table>
 	</div>
 </div>

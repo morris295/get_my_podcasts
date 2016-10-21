@@ -134,6 +134,8 @@ class AsyncController extends Controller {
 			$lastWeek = date ( "Y-m-d", strtotime ( "-7 days" ) );
 			
 			$topShowsResponse = ApiUtility::getTopShows ( $lastWeek );
+			var_dump($topShowsResponse);
+			exit;
 			$tastemakerResponse = ApiUtility::getTastemakers ();
 			$counter = 0;
 			
@@ -242,15 +244,15 @@ class AsyncController extends Controller {
 		}
 		
 		// Retrieve podcast details from API.
-		$wsPodcast = ApiUtility::getPodcast ( $id );
-		$dbPodcast = DbUtility::insertPodcast ( $wsPodcast );
+		$wsPodcast = ApiUtility::getPodcast ($id);
+		$dbPodcast = DbUtility::insertPodcast ($wsPodcast);
 		
 		// Get the id of the podcast.
 		$podcastId = $dbPodcast->id;
 		
 		$image = ($dbPodcast === null) ? $wsPodcast ["image_files"] [0] ["url"] ["full"] : $dbPodcast->image_url;
 		
-		$episodes = $this->getRecentEpisodes ( $id, $dbPodcast, $wsPodcast, $podcastId );
+		$episodes = $this->getRecentEpisodes ($id, $dbPodcast, $wsPodcast, $podcastId);
 		
 		return [ 
 				"show" => $dbPodcast,
@@ -262,7 +264,7 @@ class AsyncController extends Controller {
 	}
 	
 	private function getRecentEpisodes($id, $dbPodcast, $wsPodcast, $dbPodcastId) {
-		$episodes = [ ];
+		$episodes = [];
 		$totalEpisodes = $dbPodcast->total_episodes;
 		$filesToGet = ($totalEpisodes > 10) ? 10 : $totalEpisodes;
 		
@@ -274,21 +276,21 @@ class AsyncController extends Controller {
 			$episode = null;
 			
 			if ($dbEpisode === null) {
-				$episodeListing = ApiUtility::getEpisode ( $episodeId );
-				$episode = DbUtility::insertEpisode ( $dbPodcastId, $episodeListing );
-				$episode ["episode_num"] = $i + 1;
-				$episode ["length"] = gmdate ( "H:i:s", $episodeListing ["duration"] );
+				$episodeListing = ApiUtility::getEpisode($episodeId);
+				$episode = DbUtility::insertEpisode($dbPodcastId, $episodeListing);
+				$episode["episode_num"] = $i + 1;
+				$episode["length"] = gmdate("H:i:s", $episodeListing ["duration"]);
 			} else {
 				$episode = [ 
 						"title" => $dbEpisode->title,
 						"description" => $dbEpisode->description,
 						"source" => $dbEpisode->source,
 						"episode_num" => $i + 1,
-						"length" => gmdate ( "H:i:s", $dbEpisode->duration ) 
+						"length" => gmdate("H:i:s", $dbEpisode->duration) 
 				];
 			}
 			
-			array_push ( $episodes, $episode );
+			array_push($episodes, $episode);
 		}
 		
 		return $episodes;
