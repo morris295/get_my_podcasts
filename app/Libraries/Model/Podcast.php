@@ -11,6 +11,7 @@ use App\Model\Podcast;
 use App\Model\subscription;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PodcastWorker {
 	
@@ -121,7 +122,7 @@ class PodcastWorker {
 	public function getRecentEpisodes($id, $dbPodcast, $wsPodcast, $dbPodcastId) {
 		$episodes = [];
 		$totalEpisodes = $dbPodcast->total_episodes;
-		$filesToGet = ($totalEpisodes > 10) ? 10 : $totalEpisodes;
+		$filesToGet = ($totalEpisodes > 20) ? 20 : $totalEpisodes;
 	
 		for($i = 0; $i < $filesToGet; $i ++) {
 				
@@ -161,30 +162,38 @@ class PodcastWorker {
 		// Retrieve podcast details from API.
 		$wsPodcast = ApiUtility::getPodcast ( $show->as_id );
 		$wsEpisodes = $wsPodcast ["episode_ids"];
+		$retEpisodes = [];
 	
 		// Diff current catalogue against web service catalogue.
 		if ($show !== null) {
-			$storedEpisodes = Episode::where ( "podcast_id", $show->id )->get ();
-			foreach ( $storedEpisodes as $episode ) {
-				if (in_array ( $episode->as_id, $wsEpisodes )) {
-					$key = array_search ( $episode->as_id, $wsEpisodes );
-					unset ( $wsEpisodes [$key] );
+			$storedEpisodes = Episode::where ("podcast_id", $show->id)->get ();
+			foreach ($storedEpisodes as $episode) {
+				if (in_array($episode->as_id, $wsEpisodes)) {
+					$key = array_search ($episode->as_id, $wsEpisodes);
+					unset ($wsEpisodes [$key]);
 				}
 			}
 		}
 	
-		$totalEpisodes = count ( $wsEpisodes );
+		$totalEpisodes = count($wsEpisodes);
 	
 		if ($totalEpisodes > 0) {
-			foreach ( $wsEpisodes as $episode ) {
-				$episodeListing = ApiUtility::getEpisode ( $episode );
-				$episode = DbUtility::insertEpisode ( $show->id, $episodeListing );
+			foreach ($wsEpisodes as $episode) {
+				$episodeListing = ApiUtility::getEpisode($episode);
+				DbUtility::insertEpisode($show->id, $episodeListing);
 			}
 		}
+		
+		$data = DB::table('episodes')->
+			select(DB::raw('title, DATE_FORMAT(pub_date,\'%m/%d/%Y\') as \'published\', source, SEC_TO_TIME(duration*60) as \'length\', id as episode_num'))->
+			where("podcast_id", $show->id)->
+			orderBy("pub_date", "DESC")->
+			get();
 	
 		return json_encode([
 			"code" => 200,
-			"message" => "successfully updated episode catalogue"
+			"message" => "successfully updated episode catalogue",
+			"data" => $data
 		]);
 	}
 	
@@ -196,7 +205,8 @@ class PodcastWorker {
 	
 			$page = [];
 			$podcast = Podcast::where ("as_id", $id)->first ();
-			$episodes = Episode::where ("podcast_id", $podcast->id)->orderBy("pub_date", "DESC")->paginate(10);
+			$max = Episode::where ("podcast_id", $podcast->id)->orderBy("pub_date", "DESC")->count();
+			$episodes = Episode::where("podcast_id", $podcast->id)->orderBy("pub_date", "DESC")->paginate(10);
 			$i = ($pageNum == 2)?10:($pageNum*10);
 	
 			foreach ($episodes as $episode) {

@@ -18,18 +18,6 @@ var buildPlayButton = function(attr) {
 	return $(wrap).html();
 }
 
-var updateEpisodeCatalogue = function(endpoint) {
-	setTimeout(function() {
-		async.sendRequest(endpoint, "GET").success(function(result) {
-			$("tr:last").show();
-			var message = JSON.parse(result).message;
-			console.log(message);
-		}).error(function(err) {
-			console.log(err.status + " " + err.statusText);
-		});
-	}, 500);
-};
-
 $(document).ready(function() {
 	$("#show-content-wrap").append(config.getPreloader());
 	var resource = $("#show-resource").attr("data-value");
@@ -49,31 +37,22 @@ $(document).ready(function() {
 				"bLengthChange": false
 			});
 			
-			async.sendRequest(baseUrl + '/show/episodes/page-count/' + resource, "GET").success(function(result) {
-				page = result;
-				for (var i = 2; i <= page; i++) {
-					resource = $("#show-resource").attr("data-value"),
-					endpoint = config.getBaseUrl() + "show/episodes/paged/"+resource+"/"+i;
-					
-					async.sendRequest(endpoint, "GET")
-					.success(function(result) {
-						var episodes = JSON.parse(result).episodes;
-						$.each(episodes, function(key, item) {
-							epTable.row.add(
-								[
-					              item.title,
-					              item.published,
-					              item.length,
-					              buildPlayButton(item)
-				                ]).draw(false);
-						});
-					})
-					.error(function(err) {
-						console.log(err.status + " " + err.statusText);
-						var win = window.open("", "_self");
-						win.document.write(err.responseText);
-					});
-				}
+			var resource = $("#show-resource").attr("data-value");
+			var endpoint = baseUrl + "show/episodes/" + resource;
+
+			// Update podcast episode back catalogue.
+			async.sendRequest(endpoint, "GET").success(function(response) {
+				var result = JSON.parse(response);
+				epTable.clear();
+				$.each(result.data, function(key, item) {
+					epTable.row.add(
+						[ item.title,
+			              item.published,
+			              item.length,
+			              buildPlayButton(item),
+			              item.episode_num,
+		                ]).draw(false);
+				});
 			});
 			
 		}).error(function(err) {
