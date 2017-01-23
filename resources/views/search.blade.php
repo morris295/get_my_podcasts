@@ -1,19 +1,7 @@
-@extends('layout.master') @section('content')
-<div class="row" id="search-results">
-	<div class="search-form">
-		<form method="get" action="{{URL::to('/')}}/search" id="front-search">
-			<div class="input-group stylish-input-group">
-				<input type="text" id="search" placeholder="Search..."
-					class="form-control" name="term" /> <span
-					class="input-group-addon">
-					<button type="submit">
-						<span class="glyphicon glyphicon-search"></span>
-					</button>
-				</span>
-			</div>
-		</form>
-	</div>
-	<div class="col-lg-12">
+@extends('layout.master_no_audio')
+@section('content')
+<div class="scrollable padder-lg w-f-md" id="search-results" style="height: 100%">
+	<div class="row row-sm">
 		<div class="ibox float-e-margins">
 			<div class="ibox-content">
 				<h2>{{$count}} results found for <em>{{$term}}</em></h2>
@@ -31,14 +19,9 @@
                         <p></p>
             </div>
             @endforeach
-			
 		</div>
 	</div>
-	@endsection @section('footer')
-	<div class="navbar navbar-default navbar-fixed-bottom">
-		<div class="container">
-			<span class="navbar-text"> Get My Podcasts is and will be free as
-				long as I can keep it that way. </span>
-		</div>
-	</div>
+	@endsection
+	@section('scripts')
+	<script src="{{URL::to('/')}}/js/search.js"></script>
 	@endsection

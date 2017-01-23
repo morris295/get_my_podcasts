@@ -66,7 +66,7 @@ class Audiosearch_Client {
 			$uri .= '?' . http_build_query($params);
 		}
 		$resp = $this->agent->get ($uri);
-		return json_decode ($resp->body, true);
+		return json_decode($resp->body, true);
 	}
 	
 	/**
@@ -75,7 +75,15 @@ class Audiosearch_Client {
 	 * @return unknown
 	 */
 	public function get_show($show_id) {
-		return $this->get ("/shows/$show_id");
+		return $this->get("/shows/$show_id");
+	}
+	
+	/**
+	 * 
+	 * @param unknown $categoryId
+	 */
+	public function get_categories($show_id) {
+		return $this->get("/shows/$show_id/related");
 	}
 	
 	/**
@@ -84,7 +92,7 @@ class Audiosearch_Client {
 	 * @return unknown
 	 */
 	public function get_episode($ep_id) {
-		return $this->get ("/episodes/$ep_id");
+		return $this->get("/episodes/$ep_id");
 	}
 	
 	/**
@@ -95,7 +103,7 @@ class Audiosearch_Client {
 	 * @return object
 	 */
 	public function search($params, $type = 'episodes') {
-		return $this->get ("/search/$type", $params);
+		return $this->get("/search/$type", $params);
 	}
 	
 	/**
@@ -103,7 +111,7 @@ class Audiosearch_Client {
 	 * @return unknown
 	 */
 	public function get_trending() {
-		return $this->get ("/trending");
+		return $this->get("/trending");
 	}
 	
 	/**
@@ -111,9 +119,9 @@ class Audiosearch_Client {
 	 * @return unknown
 	 */
 	public function get_tastemakers($params = array()) {
-		$type = (array_key_exists('type', $params) ? $params ['type'] : 'episodes');
-		$n = (array_key_exists('n', $params ) ? $params ['n'] : '10');
-		return $this->get("/tastemakers/$type/$n");
+// 		$type = (array_key_exists('type', $params) ? $params ['type'] : 'episodes');
+// 		$n = (array_key_exists('n', $params ) ? $params ['n'] : '10');
+		return $this->get("/tasties/");
 	}
 	
 	/**
@@ -122,7 +130,7 @@ class Audiosearch_Client {
 	 * @return unknown
 	 */
 	public function get_person($p_id) {
-		return $this->get ("/people/$p_id");
+		return $this->get("/people/$p_id");
 	}
 	
 	/**
@@ -133,7 +141,7 @@ class Audiosearch_Client {
 	 */
 	public function get_related($id, $params = array()) {
 		$type = (array_key_exists('type', $params) ? $params ['type'] : 'episodes');
-		return $this->get ("/$type/$id/related", $params);
+		return $this->get("/$type/$id/related", $params);
 	}
 	
 	/**

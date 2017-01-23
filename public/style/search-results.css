@@ -1,6 +1,6 @@
 
 .ibox-content {
-    background-color: #FFFFFF;
+    //background-color: #FFFFFF;
     color: inherit;
     padding: 15px 20px 20px 20px;
     border-color: #E7EAEC;
@@ -9,13 +9,22 @@
     border-width: 1px 0px;
 }
 
+.ibox.float-e-margins {
+	margin-left: 35px;
+	width: 90%;
+}
+
 .search-form {
     margin-top: 10px;
 }
 
-.search-result h3 {
+.search-result h4 {
     margin-bottom: 0;
-    color: #1E0FBE;
+    color: #1E0FBE !important;
+}
+
+.search-result h4 > a {
+	color: #1E0FBE !important;
 }
 
 .search-result .search-link {

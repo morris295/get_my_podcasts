@@ -1,62 +1,50 @@
-@extends('layout.master') @section('content')
-<div class="container">
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">Login</div>
-				<div class="panel-body">
-					<form class="form-horizontal" role="form" method="POST"
-						action="{{ url('/login') }}">
+@extends('layout.membership')
+@section('title', 'CastNinja - Login')
+@section('content')
+<section id="content" class="m-t-lg wrapper-md animated fadeInUp">
+	<div class="container aside-xl">
+		<a class="navbar-brand block" href="{{URL::to('/')}}"><span
+			class="h1 font-bold">CastNinja</span></a>
+		<section class="m-b-lg">
+			<header class="wrapper text-center">
+				<strong>Sign in to save playlists and <br /> follow your favorite podcasts</strong>
+			</header>
+			<form action="{{ url('/login') }}" method="POST">
 						{!! csrf_field() !!}
-
-						<div
-							class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-							<label class="col-md-4 control-label">E-Mail Address</label>
-
-							<div class="col-md-6">
-								<input type="email" class="form-control" name="email"
-									value="{{ old('email') }}"> @if ($errors->has('email')) <span
-									class="help-block"> <strong>{{ $errors->first('email') }}</strong>
-								</span> @endif
-							</div>
-						</div>
-
-						<div
-							class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-							<label class="col-md-4 control-label">Password</label>
-
-							<div class="col-md-6">
-								<input type="password" class="form-control" name="password"> 
-								@if($errors->has('password'))
-								 <span class="help-block"> <strong>{{
-										$errors->first('password') }}</strong>
-								</span> @endif
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<div class="checkbox">
-									<label> <input type="checkbox" name="remember"> Remember Me
-									</label>
-								</div>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary">
-									<i class="fa fa-btn fa-sign-in"></i>Login
-								</button>
-
-								<a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot
-									Your Password?</a>
-							</div>
-						</div>
-					</form>
+				<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+					<input type="email" placeholder="Email"
+						class="form-control rounded input-lg text-center no-border" name="email">
+						@if ($errors->has('email'))
+							<span class="help-block">
+								<strong>{{ $errors->first('email') }}</strong>
+							</span>
+						@endif
 				</div>
-			</div>
-		</div>
+				<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+					<input type="password" placeholder="Password"
+						class="form-control rounded input-lg text-center no-border" name="password">
+						@if ($errors->has('password'))
+							<span class="help-block">
+								<strong>{{ $errors->first('password') }}</strong>
+							</span>
+						@endif
+				</div>
+				<button type="submit"
+					class="btn btn-lg btn-warning lt b-white b-2x btn-block btn-rounded">
+					<i class="icon-arrow-right pull-right"></i><span class="m-r-n-lg">Sign
+						in</span>
+				</button>
+				<div class="text-center m-t m-b">
+					<a href="#"><small>Forgot password?</small></a>
+				</div>
+				<div class="line line-dashed"></div>
+				<p class="text-muted text-center">
+					<small>Don't have an account?</small>
+				</p>
+				<a href="{{URL::to('/')}}/register" class="btn btn-lg btn-info btn-block rounded">Create
+					an account</a>
+			</form>
+		</section>
 	</div>
-</div>
+</section>
 @endsection

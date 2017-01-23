@@ -12,12 +12,16 @@ class ApiUtility {
 	public static function getPodcast($id) {
 		return self::$audiosearchClient->get_show($id);
 	}
+	public static function getCategories($id) {
+		return self::$audiosearchClient->get_categories($id);
+	}
 	public static function getEpisode($id) {
 		return self::$audiosearchClient->get_episode($id);
 	}
 	public static function getTopShows($yesterday) {
-		return self::$audiosearchClient->get("chart_daily?start_date=$yesterday&limit=10&country=us");
+		return self::$audiosearchClient->get("chart_daily?start_date=$yesterday&limit=50&country=us");
 	}
+	//DEPRECATED - REMOVE
 	public static function getTastemakers() {
 		return self::$audiosearchClient->get_tastemakers([ 
 				"n" => "10",

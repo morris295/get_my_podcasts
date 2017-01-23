@@ -2,8 +2,10 @@
 
 namespace App\Libraries\Utility;
 
+use App\Model\Category;
 use App\Model\Episode;
 use App\Model\Podcast;
+use App\Model\PodcastCategory;
 use App\Model\subscription;
 
 class DbUtility {
@@ -11,12 +13,12 @@ class DbUtility {
 	/**
 	 * Determine if podcast has already been saved, if so
 	 * update the last top date.
-	 * If not, save it.
+	 * If not saved, save it.
 	 * 
 	 * @param unknown $podcastDetails        	
 	 */
 	public static function insertPodcast($podcastDetails) {
-		$show = Podcast::where ( "title", $podcastDetails ["title"] )->first ();
+		$show = Podcast::where ("title", $podcastDetails["title"])->first();
 		
 		if ($show === null) {
 			$show = new Podcast ();
@@ -40,6 +42,16 @@ class DbUtility {
 		
 		return $show;
 	}
+	
+	public static function insertCategories($podcastId, $categories) {
+		foreach ($categories as $item) {
+			$category = Category::firstOrNew(["name" => $item]);
+			$category->save();
+			$podcastCategory = PodcastCategory::firstOrNew(["podcast_id" => $podcastId, "category_id" => $category->id]);
+			$podcastCategory->save();
+		}
+	}
+	
 	public static function insertTopPodcast($podcastDetails, $topShow = 0, $tastemaker = 0) {
 		$show = Podcast::where ( "title", $podcastDetails ["title"] )->first ();
 		
@@ -69,62 +81,65 @@ class DbUtility {
 		
 		return $show;
 	}
+	
+	
 	public static function insertEpisode($podcastId, $episodeDetails) {
 		$episode = Episode::where ( [ 
-				"as_id" => $episodeDetails ["id"],
+				"as_id" => $episodeDetails["id"],
 				"id" => $podcastId 
-		] )->first ();
+		] )->first();
 		
 		if ($episode === null) {
 			$episode = new Episode ();
 			$episode->title = $episodeDetails ["title"];
-			$episode->pub_date = date ( "Y-m-d H:i:s", strtotime ( $episodeDetails ["date_created"] ) );
-			$episode->link = isset ( $episodeDetails ["digital_location"] ) ? $episodeDetails ["digital_location"] : "";
-			$episode->duration = $episodeDetails ["duration"];
+			$episode->pub_date = date ("Y-m-d H:i:s", strtotime($episodeDetails["date_created"]));
+			$episode->link = isset($episodeDetails["digital_location"])?$episodeDetails["digital_location"]:"";
+			$episode->duration = $episodeDetails["duration"];
 			$episode->author = null;
 			$episode->explicit = null;
 			$episode->summary = null;
 			$episode->subtitle = null;
-			$episode->description = isset ( $episodeDetails ["description"] ) ? $episodeDetails ["description"] : "";
-			$episode->source = $episodeDetails ["audio_files"] [0] ["url"] [0];
+			$episode->description = isset($episodeDetails["description"])?$episodeDetails["description"]:"";
+			if (isset($episodeDetails["audio_files"][0]["url"]) && is_array($episodeDetails["audio_files"][0]["url"])) {
+				$episode->source = $episodeDetails["audio_files"][0]["url"][0];
+			} else {
+				$episode->source = isset($episodeDetails["audio_files"][0]["url"])?$episodeDetails["audio_files"][0]["url"]:"";
+			}
 			$episode->podcast_id = $podcastId;
 			$episode->enclosure_link = null;
-			$episode->as_id = $episodeDetails ["id"];
-			$episode->save ();
+			$episode->as_id = $episodeDetails["id"];
+			$episode->save();
 		}
 		
-		return [ 
-				"title" => $episode->title,
-				"description" => $episode->description,
-				"source" => $episode->source 
-		];
+		return $episode;
 	}
 	
 	public static function getTopShows() {
-		return Podcast::where ( "top_show", 1 )->orderBy ( 'last_top_show_date', 'desc' )->take ( 10 )->get ()->toArray ();
+		return Podcast::where("top_show", 1)->orderBy('last_top_show_date', 'desc')->take(60)->get();
 	}
 	
+	//DEPRECATED - REMOVE
 	public static function getTastemakers() {
-		return Podcast::where ( "tastemaker", 1 )->orderBy ( 'last_top_show_date', 'desc' )->take ( 10 )->get ()->toArray ();
+		return Podcast::where("tastemaker", 1)->orderBy('last_top_show_date', 'desc')->take(10)->get();
 	}
 	
 	public static function updateArtwork($asId, $image) {
-		Podcast::where ( "as_id", $asId )->update ( [ 
+		Podcast::where("as_id", $asId )->update([ 
 				"image_url" => $image 
-		] );
+		]);
 	}
 	
 	public static function subscribeUser($podcastId, $userId) {
-		subscription::create ( [ 
+		subscription::create([ 
 				"user_id" => $userId,
 				"podcast_id" => $podcastId 
-		] );
+		]);
 	}
 	
 	public static function unsubscribeUser($podcastId, $userId) {
-		subscription::where ( [ 
+		subscription::where([ 
 				"user_id" => $userId,
 				"podcast_id" => $podcastId 
-		] )->delete ();
+		])->delete();
 	}
 }

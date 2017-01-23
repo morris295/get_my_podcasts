@@ -1,30 +1,15 @@
 var _baseUrl = "";
-var _preloader = "";
-var _miniPreloader = "";
 var Configuration = function() {
 	if (window.location.host.indexOf('localhost') !== -1) {
 		var path = window.location.pathname;
 		var pathParts =path.split('/');
 		_baseUrl = '/' + pathParts[1] + '/' + pathParts[2] + '/';
 	} else {
-		_baseUrl = "/";
+		_baseUrl = "http://" + window.location.hostname + "/";
 	}
-	
-	_preloader = "<div id=\"loader\"><p>Please wait...</p><img src=\""+
-	_baseUrl+"image/ajax-loader.gif\" /></div>";
-	
-	_miniPreloader = "<div id=\"loader-mini\">&nbsp;&nbsp;<img src=\""+_baseUrl+"image/ajax-loader-mini.gif\"/></div>";
 };
 
 
 Configuration.prototype.getBaseUrl = function() {
 	return _baseUrl;
-};
-
-Configuration.prototype.getPreloader = function() {
-	return _preloader;
-};
-
-Configuration.prototype.getMiniPreloader = function() {
-	return _miniPreloader;
 };

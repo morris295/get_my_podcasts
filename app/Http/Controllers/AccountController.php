@@ -9,28 +9,53 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\Libraries\Utility\ApiUtility;
 use Illuminate\Support\Facades\Auth;
+use App\Model\Podcast;
+use App\Libraries\Model\PodcastWorker;
 
 class AccountController extends Controller {
 	
+	protected $podcastWorker;
+
 	public function __construct() {
-		// Default constructor.
+		$this->podcastWorker = new PodcastWorker();
 	}
 	
 	public function index($userId) {
 		if (Auth::guest()) {
-			return redirect('');
+			return redirect('/');
 		}
 		
-		$subs = $this->getSubscriptions ( $userId );
-		$subscriptions = $this->compileShows ( $subs );
+		$followed = $this->getSubscriptions($userId);
+		$followingShows = $this->compileShows($followed);
+		$top = $this->getTopPodcasts();
 		
-		return view ('account', [ 
-				'userSubs' => $subscriptions 
+		return view ('account', [
+				'userSubs' => $followingShows,
+				"totalFollowing" => count($followingShows), 
+				"topShows" => $top
 		]);
 	}
 	
+	private function getTopPodcasts() {
+		return Podcast::where("top_show", 1)
+			->select("title", "resource", "image_url")
+			->orderBy(DB::raw("RAND()"))
+			->limit(10)
+			->get()
+			->toArray();
+	}
+	
 	private function getSubscriptions($id) {
-		return DB::table('subscriptions')->join ('users', 'users.id', '=', 'subscriptions.user_id')->join ('podcasts', 'podcasts.id', '=', 'subscriptions.podcast_id')->where('subscriptions.user_id', $id)->select ('podcasts.id', 'podcasts.title', 'podcasts.image_url', 'podcasts.as_id')->get ();
+		return DB::table('subscriptions')
+			->join('users', 'users.id', '=', 'subscriptions.user_id')
+			->join('podcasts', 'podcasts.id', '=', 'subscriptions.podcast_id')
+			->where('subscriptions.user_id', $id)
+			->select ('podcasts.id',
+				'podcasts.title',
+				'podcasts.image_url',
+				'podcasts.as_id',
+				'podcasts.resource')
+			->get();
 	}
 	
 	private function compileShows($shows) {
@@ -40,7 +65,10 @@ class AccountController extends Controller {
 		$j = 0;
 		$row = 1;
 		foreach ( $shows as $show ) {
-			$episodes = DB::table ( 'episodes' )->where ( 'podcast_id', $show->id )->select ( 'title', 'source' )->take (10)->get ();
+			$episodes = DB::table('episodes')
+				->where('podcast_id', $show->id)
+				->orderBy('pub_date', 'DESC')
+				->select ('title', 'source')->take(10)->get();
 			
 			$podcast = new \stdClass ();
 			$podcast->id = $show->id;
@@ -48,6 +76,7 @@ class AccountController extends Controller {
 			$podcast->image_url = $show->image_url;
 			$podcast->podcast_num = $i;
 			$podcast->as_id = $show->as_id;
+			$podcast->resource = $show->resource;
 			$podcast->episodes = [];
 			
 			foreach ( $episodes as $episode ) {

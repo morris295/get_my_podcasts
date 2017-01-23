@@ -1,28 +1,91 @@
-var config = new Configuration();
-
 $(document).ready(function() {
-	var audio = $("#player");
+	//var audio = $("#player");
+	
 	var previousPageTitle = $(document).prop('title');
+	
+	$(document).on("click", "#savePlaylist", function(e) {
+		endpoint = '/playlists/create',
+		token = $('meta[name="csrf-token"]').attr("content"),
+		uid = parseInt($(e.target).closest("a").attr("data-value"));
+		
+		alertify.prompt("Please name this playlist:", function(e, val) {
+			if (e) {
+				
+				var data = {
+					user_id: uid,
+					contents: myPlaylist.playlist,
+					playlist_name: val
+				};
+				
+				alertify.set({
+					labels: {
+						ok: "Yes",
+						cancel: "No"
+					}
+				});
+				
+				alertify.confirm("Mark as the default playlist?", function(e) {
+					if (e) {
+						data.keep_current = 1;
+					} else {
+						data.keep_current = 0;
+					}
+					
+					asynch.sendRequest(endpoint, "POST", token, data)
+					.then(function(result) {
+						console.log("Success!");
+						toastr.success("Success", "Playlist saved.");
+					},
+					function(result) {
+						console.log("Failure! Boo!");
+						toastr.error("Failed", "Playlist not saved.");
+					});
+				});
+			}
+		});
+	});
+	
+	$(document).on("click", "#clearPlaylist", function(e) {
+		myPlaylist.playlist.length = 0;
+	});
 	
 	$(document).on("click", "[id^=play-episode]", function(e) {
 		e.preventDefault();
-		$("#mpeg-source").attr("src", $(this).attr("data-value"));
+		var source = $(this).attr("data-value");
 		var title = $(this).attr("data-episodeTitle");
-		$("#play-icon").attr("class", "glyphicon glyphicon-volume-up");
+		//$("#play-icon").attr("class", "glyphicon glyphicon-volume-up");
 		
-		audio[0].pause();
-		audio[0].load();
-		
-		audio[0].oncanplaythrough = function() {
-			audio[0].play();
-			$("#episode-playing-title").text("");
-			$("#episode-playing-title").text(title);
-			$(document).prop('title', title + ' - Get My Podcasts');
-		};
-		
-		audio[0].addEventListener('ended', function() {
-			$(document).prop('title', previousPageTitle);
+		myPlaylist.add({
+			title: title,
+			artist: "",
+			mp3: source,
+			poster: ""
 		});
+		
+		console.log(myPlaylist);
+		
+		$(document).prop('title', title + " - Get My Podcasts");
+		setTimeout(function() {
+			myPlaylist.play();
+		}, 500);
+	});
+	
+	$(document).on("click", "[id^=add-to-pl]", function(e) {
+		e.preventDefault();
+		var source = $(this).attr("data-value");
+		var title = $(this).attr("data-episodeTitle");
+		
+		myPlaylist.add({
+			title: title,
+			artist: "",
+			mp3: source,
+			poster: ""
+		});
+		$(document).prop('title', title + " - Get My Podcasts");
+		
+		setTimeout(function() {
+			myPlaylist.play();
+		}, 3500);
 	});
 	
 	$(document).on("click", "#popout", function(e) {

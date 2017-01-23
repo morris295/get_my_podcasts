@@ -17,13 +17,13 @@ class MainController extends Controller {
 	 * Return application main page.
 	 */
 	public function index() {
-		return view ('index');
+		return view('index');
 	}
 	public function about() {
-		return view ('about');
+		return view('about');
 	}
 	public function contact() {
-		return view ('contact');
+		return view('contact');
 	}
 	
 	/**
@@ -31,8 +31,8 @@ class MainController extends Controller {
 	 */
 	public function search() {
 		$timeStart = microtime(true);
-		$searchTerm = Input::get ("term");
-		$response = ApiUtility::getSearch ( $searchTerm );
+		$searchTerm = Input::get("term");
+		$response = ApiUtility::getSearch($searchTerm);
 		$items = [ ];
 		
 		foreach ( $response ["results"] as $result ) {
@@ -50,7 +50,8 @@ class MainController extends Controller {
 				"term" => $searchTerm,
 				"count" => count($items),
 				"items" => $items,
-				"execution" => number_format($executionTime, 2, '.', '')
+				"execution" => number_format($executionTime, 2, '.', ''),
+				"noAudio" => true
 		] );
 	}
 }

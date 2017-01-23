@@ -53,16 +53,14 @@ class WebApiController extends Controller {
 	 * Endpoint to subscribe to a podcast.
 	 */
 	public function subscribeUser() {
-		$user = Input::get ("user_id");
-		$podcast = Input::get ("podcast_id");
+		$user = Input::get("user_id");
+		$podcast = Input::get("podcast_id");
 	
 		$this->userWorker->subscribeUser($podcast, $user);
 		
-		return json_encode ([
-				"code" => 200,
-				"message" => "User subscribed successfully.",
-				"data" => ""
-		]);
+		return response()->json([
+			"message" => "User subscribed successfully.",
+			], 200);
 		
 		//TODO: Add try/catch for error checking.
 	}
@@ -75,12 +73,8 @@ class WebApiController extends Controller {
 		$podcast = Input::get("podcast_id");
 	
 		$this->userWorker->unsubscribeUser($podcast, $user);
-	
-		return json_encode([
-				"code" => 200,
-				"message" => "",
-				"data" => ""
-		]);
+
+		return response()->json(["message" => "User unsubscribed"], 200);
 		
 		//TODO: Add try/catch for error checking.
 	}
@@ -101,16 +95,23 @@ class WebApiController extends Controller {
 		$image = $podcast->image_url;
 		$link = $podcast->resource;
 		$metaId = $podcast->as_id;
+		
 		$data = [
 			"image" => $image,
 			"resource" => $link,
 			"dataValue" => $metaId
 		];
-		return json_encode ($data, JSON_UNESCAPED_SLASHES);
+
+		response()->json($data);
 	}
 	
 	public function getAllPodcastEpisodes($id) {
 		$data = $this->podcastWorker->getAllEpisodes($id);
+		return $data;
+	}
+	
+	public function getLatestEpisode($id) {
+		$data = $this->podcastWorker->getLatestEpisode($id);
 		return $data;
 	}
 	
@@ -128,7 +129,8 @@ class WebApiController extends Controller {
 		return response()->json($result, $result["code"]);
 	}
 	
-	public function openPlayer($source) { 
-		return urldecode($source);
+	public function getRelated($id) {
+		$result = $this->podcastWorker->getRelatedPodcasts($id);
+		return response()->json($result);
 	}
 }

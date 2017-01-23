@@ -1,6 +1,4 @@
-var Async = function() {
-	console.log("New Async instance created.");
-};
+var Async = function() { };
 
 Async.prototype.sendRequest = function(endpoint, method, csrfToken, data) {
 	
@@ -17,6 +15,7 @@ Async.prototype.sendRequest = function(endpoint, method, csrfToken, data) {
 	        }
 		});
 	} else {
+		
 		deferred = $.ajax({
 			url : endpoint,
 			method : method
