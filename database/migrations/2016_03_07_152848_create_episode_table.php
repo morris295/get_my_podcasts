@@ -17,15 +17,15 @@ class CreateEpisodeTable extends Migration
 
 			$table->increments('id');
 			$table->string('title');
-			$table->timestamp('pub_date');
-			$table->string('link');
+			$table->dateTime('pub_date');
+			$table->longText('link');
 			$table->string('duration');
 			$table->string('author')->nullable();
 			$table->tinyInteger('explicit')->nullable();
 			$table->string('summary')->nullable();
 			$table->string('subtitle')->nullable();
-			$table->string('description');
-			$table->string('source');
+			$table->longText('description');
+			$table->longText('source');
 			$table->integer('podcast_id')->unsigned();
 			$table->string('enclosure_link')->nullable();
 			$table->integer('as_id');
