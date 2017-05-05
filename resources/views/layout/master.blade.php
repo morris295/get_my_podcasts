@@ -8,11 +8,13 @@
   <meta name="csrf-token" content="{{csrf_token()}}">
   <link rel="stylesheet" href="{{URL::to('/')}}/js/jPlayer/jplayer.flat.css" type="text/css" />
   <link rel="stylesheet" href="{{URL::to('/')}}/bower_components/bootstrap/dist/css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="{{URL::to('/')}}/js/jquery-ui/jquery-ui.css" type="text/css" />
   <link rel="stylesheet" href="{{URL::to('/')}}/style/animate.css" type="text/css" />
   <link rel="stylesheet" href="{{URL::to('/')}}/style/font-awesome.min.css" type="text/css" />
   <link rel="stylesheet" href="{{URL::to('/')}}/style/simple-line-icons.css" type="text/css" />
   <link rel="stylesheet" href="{{URL::to('/')}}/style/font.css" type="text/css" />
   <link rel="stylesheet" href="{{URL::to('/')}}/style/app.css" type="text/css" />
+  <link rel="stylesheet" href="{{URL::to('/')}}/style/def.css" type="text/css" />
   <link rel="stylesheet" href="{{URL::to('/')}}/style/default.css" type="text/css" />
   <link rel="stylesheet" href="{{URL::to('/')}}/style/search-results.css" type="text/css" />
   <link rel="stylesheet" type="text/css" href="{{URL::to('/')}}/Alertify/themes/alertify.core.css" />
@@ -114,6 +116,11 @@
 <!--               </section> -->
 <!--             </section> -->
 <!--           </li> -->
+		  <li>
+        	<a style="height: 12px; margin-top: -5px" href="https://www.audiosear.ch/">
+        		Powered By Audiosear.ch <img src="{{URL::to('/')}}/image/audiosearch_logo_32.png" />
+       		</a>
+          </li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown">
               <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
@@ -140,6 +147,11 @@
         @endif
         @if(Auth::guest())
         	<ul class="nav navbar-nav m-n hidden-xs nav-user user">
+        		<li>
+		        	<a style="height: 12px; margin-top: -5px" href="https://www.audiosear.ch/">
+		        		Powered By Audiosear.ch <img src="{{URL::to('/')}}/image/audiosearch_logo_32.png" />
+		       		</a>
+		        </li>
         		<li><a class="btn btn" href="{{URL::to('/')}}/register">Sign Up</a></li>
         		<li><a class="btn btn-primary" style="background-color: #1ab667;" href="{{URL::to('/')}}/login">Login</a></li>
         		<li style="width: 25px"></li>
@@ -174,6 +186,12 @@
                       <a href="{{URL::to('/')}}/genres">
                         <i class="icon-music-tone-alt icon text-info"></i>
                         <span class="font-bold">Genres</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{{URL::to('/')}}/search">
+                        <i class="fa fa-search"></i>
+                        <span class="font-bold">Search</span>
                       </a>
                     </li>
                     @if(!Auth::guest())
@@ -216,6 +234,7 @@
               <section class="vbox">
                 @yield('content')
                 @include('layout.footer')
+                @include('modal')
               </section>
             </section>
             <!-- side content -->
@@ -236,7 +255,12 @@
   <script src="{{URL::to('/')}}/bower_components/jquery/dist/jquery.min.js"></script>
   <!-- Bootstrap -->
   <script src="{{URL::to('/')}}/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <!-- JQuery UI -->
+  <script src="{{URL::to('/')}}/js/jquery-ui/jquery-ui.js"></script>
   <!-- App -->
+  <script src="{{URL::to('/')}}/js/lib/config.js"></script>
+  <script src="{{URL::to('/')}}/js/lib/async.js"></script>
+  <script src="{{URL::to('/')}}/js/lib/playlist.js"></script>
   <script src="{{URL::to('/')}}/Alertify/lib/alertify.min.js"></script>
   <script src="{{URL::to('/')}}/js/toastr.min.js"></script>
   <script src="{{URL::to('/')}}/js/lib/loader.js"></script>

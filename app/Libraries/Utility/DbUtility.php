@@ -7,6 +7,8 @@ use App\Model\Episode;
 use App\Model\Podcast;
 use App\Model\PodcastCategory;
 use App\Model\subscription;
+use Illuminate\Support\Facades\DB;
+use App\Model\Playlist;
 
 class DbUtility {
 	
@@ -115,7 +117,11 @@ class DbUtility {
 	}
 	
 	public static function getTopShows() {
-		return Podcast::where("top_show", 1)->orderBy('last_top_show_date', 'desc')->take(60)->get();
+		return Podcast::where("top_show", 1)->orderBy(DB::raw("RAND()"))->take(60)->get();
+	}
+	
+	public static function getEpisodeCount($id) {
+		return Episode::where("podcast_id", $id)->count();
 	}
 	
 	//DEPRECATED - REMOVE
@@ -138,8 +144,14 @@ class DbUtility {
 	
 	public static function unsubscribeUser($podcastId, $userId) {
 		subscription::where([ 
-				"user_id" => $userId,
-				"podcast_id" => $podcastId 
+			"user_id" => $userId,
+			"podcast_id" => $podcastId 
+		])->delete();
+	}
+	
+	public static function deletePlaylist($id) {
+		Playlist::where([
+			"id" => $id
 		])->delete();
 	}
 }

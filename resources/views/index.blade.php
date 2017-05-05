@@ -9,8 +9,6 @@
 </section>
 @endsection
 @section('scripts')
-<script src="{{URL::to('/')}}/js/lib/config.js"></script>
-<script src="{{URL::to('/')}}/js/lib/async.js"></script>
 <script src="{{URL::to('/')}}/js/audio.js"></script>
 <script src="{{URL::to('/')}}/Alertify/src/alertify.js"></script>
 <script src="{{URL::to('/')}}/js/img-handler.js"></script>

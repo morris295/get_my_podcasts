@@ -1,29 +1,60 @@
 /* Init necessary global entities such as loader and config. */
 config = new Configuration(),
 asynch = new Async(),
-myPlaylist = new jPlayerPlaylist({
-    jPlayer: "#jplayer_N",
-    cssSelectorAncestor: "#jp_container_N"
-  }, [], {
-    playlistOptions: {
-      enableRemoveControls: true,
-      autoPlay: false
-    },
-    swfPath: "js/jPlayer",
-    supplied: "webmv, ogv, m4v, oga, mp3",
-    smoothPlayBar: true,
-    keyEnabled: true,
-    audioFullScreen: false,
-    play: function(e) {
-      e.preventDefault();
-      $(document).prop('title', e.jPlayer.status.media.title);
-    },
-    ended: function(e) {
-      e.preventDefault();
-      $(document).prop('title', "CastNinja");
+playlist = new Playlist(),
+loader = new Loader(),
+myPlaylist = playlist.init();
+
+dialog = $( "#dialog-form" ).dialog({
+	autoOpen: false,
+	height: 250,
+	width: 250,
+	modal: true,
+	draggable: false,
+	buttons: [
+	{
+		'text': "Save",
+		'class': "btn btn-default",
+		'click': function() {}
+	},
+	{
+	  'text': "Cancel",
+	  'class': "btn btn-danger",
+	  'click': function() {
+	    dialog.dialog("destroy");
+	  }
+	}
+	],
+	close: function() {
+	  form[ 0 ].reset();
+	  allFields.removeClass( "ui-state-error" );
+	  dialog.dialog("destroy");
     }
-}),
-loader = new Loader();
+  });
+
+// Register a click handler to open new tabs if audio is playing.
+$(document).ready(function() {
+	$("a").click(function(e) {
+		
+		if ($("#jp_audio_0").length) {
+			e.preventDefault();
+			var paused = $("#jp_audio_0")[0].paused,
+			currentTime = $("#jp_audio_0")[0].currentTime,
+			targetHref = $(e.target).closest("a")[0].href;
+			
+			if (targetHref === "#" || targetHref === "" || targetHref === undefined) {
+				return;
+			}
+			
+			if (!paused && currentTime > 0) {
+				var newTab = window.open(targetHref, '_blank');
+				return false;
+			} else {
+				window.location.replace(targetHref);
+			}
+		}
+	});
+});
 
 // Load most recent playlist.
 if (Window.idx) {
@@ -32,12 +63,14 @@ if (Window.idx) {
 	asynch.sendRequest(endpoint, "GET")
 	.then(function(result) {
 		if (result.length > 0) {
+			var id = JSON.parse(result[0].id);
 			var playlist = JSON.parse(result[0].contents);
 			var localPlaylist = [];
 			playlist.forEach(function(item) {
 				localPlaylist.push(item);
 				myPlaylist.add(item);
 			});
+			sessionStorage.playlist_id = id;
 			sessionStorage.playlist = JSON.stringify(localPlaylist);
 		}
 	}, function(err) {

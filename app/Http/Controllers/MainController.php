@@ -32,26 +32,32 @@ class MainController extends Controller {
 	public function search() {
 		$timeStart = microtime(true);
 		$searchTerm = Input::get("term");
-		$response = ApiUtility::getSearch($searchTerm);
 		$items = [ ];
 		
-		foreach ( $response ["results"] as $result ) {
-			$item = [ 
-					"title" => $result ["title"],
-					"description" => $result ["description"],
-					"as_id" => $result ["id"] 
-			];
-			array_push ( $items, $item );
+		if ($searchTerm) {
+			$response = ApiUtility::getSearch($searchTerm);
+			
+			foreach ( $response ["results"] as $result ) {
+				$item = [ 
+						"title" => $result ["title"],
+						"description" => $result ["description"],
+						"as_id" => $result ["id"] 
+				];
+				array_push ( $items, $item );
+			}
+			$timeEnd = microtime(true);
+			$executionTime = $timeEnd - $timeStart;
+			
+			return view ('search', [ 
+					"term" => $searchTerm,
+					"count" => count($items),
+					"items" => $items,
+					"execution" => number_format($executionTime, 2, '.', ''),
+					"noAudio" => true
+			]);
+		} else {
+			$data = ["items" => $items];
+			return view('search', $data);
 		}
-		$timeEnd = microtime(true);
-		$executionTime = $timeEnd - $timeStart;
-		
-		return view ( 'search', [ 
-				"term" => $searchTerm,
-				"count" => count($items),
-				"items" => $items,
-				"execution" => number_format($executionTime, 2, '.', ''),
-				"noAudio" => true
-		] );
 	}
 }

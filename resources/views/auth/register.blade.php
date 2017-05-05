@@ -4,7 +4,9 @@
 <section id="content" class="m-t-lg wrapper-md animated fadeInDown">
 	<div class="container aside-xl">
 		<a class="navbar-brand block" href="{{URL::to('/')}}"><span
-			class="h1 font-bold">CastNinja</span></a>
+			class="h1 font-bold">
+				<img src="{{ url('/') }}/image/white_logo_transparent_background-1.png" style="max-height: 150px; max-width:200px;" />
+			</span></a>
 		<section class="m-b-lg">
 			<header class="wrapper text-center">
 				<strong>Sign up to find interesting thing</strong>

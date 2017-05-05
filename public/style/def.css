@@ -1,0 +1,12 @@
+.ui-widget.ui-widget-content {
+	background-color: #f2f4f8 !important;
+}
+
+.ui-dialog-buttonpane {
+	background-color: #f2f4f8 !important;
+}
+
+.ui-dialog-titlebar {
+	background-color: #3b464d !important;
+	color: #f2f4f8 !important;
+}

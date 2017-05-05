@@ -17,3 +17,6 @@ storage/
 .settings
 .project
 .buildpath
+
+#Visual Studio Code environment files.
+.vscode

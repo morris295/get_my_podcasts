@@ -4,7 +4,7 @@ Async.prototype.sendRequest = function(endpoint, method, csrfToken, data) {
 	
 	var deferred;
 	
-	if (method === "POST") {
+	if (method === "POST" || method === "DELETE") {
 		
 		deferred = $.ajax({
 			url : endpoint,

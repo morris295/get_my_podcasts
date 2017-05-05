@@ -2,17 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
+use App\Libraries\Utility\DbUtility;
 use App\Model\Playlist;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 
 
 
 class PlaylistsController extends Controller
 {
-	
 	public function getAll() {
-		return view("playlist");
+		$data = Playlist::where(["user_id" => Auth::user()->id, "keep_current" => 1])->get(["id", "playlist_name", "contents", "keep_current"])->toArray();
+		$playlists = ["playlists" => []];
+		foreach ($data as $datum) {
+			$playlist = new \stdClass();
+			$playlist->id = $datum["id"];
+			$playlist->name = $datum["playlist_name"];
+			$playlist->default = $datum["keep_current"];
+			$playlist->content = json_decode($datum["contents"], true);
+			$playlists["playlists"][] = $playlist;
+		}
+		return view("playlist", $playlists);
 	}
 	
     /**
@@ -47,7 +58,7 @@ class PlaylistsController extends Controller
      */
     public function show($id)
     {
-        $data = Playlist::where(["user_id" => $id, "keep_current" => 1])->get(["contents"])->toArray();
+        $data = Playlist::where(["user_id" => $id, "keep_current" => 1])->get(["id", "playlist_name", "contents", "keep_current"])->toArray();
         return response()->json($data, 200, [], JSON_UNESCAPED_UNICODE);
     }
 
@@ -71,6 +82,10 @@ class PlaylistsController extends Controller
      */
     public function destroy($id)
     {
-        //TODO: Implement deleting a playlist.
+        //DbUtility::deletePlaylist($id);
+        $data = new \stdClass();
+        $data->message = "";
+        $data->code = 200;
+        return response()->json($data, 200, [], JSON_UNESCAPED_SLASHES);
     }
 }

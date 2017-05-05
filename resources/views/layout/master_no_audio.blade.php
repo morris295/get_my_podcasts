@@ -108,6 +108,11 @@
 <!--               </section> -->
 <!--             </section> -->
           </li>
+          <li>
+        	<a style="height: 12px; margin-top: -5px" href="https://www.audiosear.ch/">
+        		Powered By Audiosear.ch <img src="{{URL::to('/')}}/image/audiosearch_logo_32.png" />
+       		</a>
+          </li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown">
               <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
@@ -141,6 +146,11 @@
         @endif
         @if(Auth::guest())
         	<ul class="nav navbar-nav m-n hidden-xs nav-user user">
+        		<li>
+		        	<a style="height: 12px; margin-top: -5px" href="https://www.audiosear.ch/">
+		        		Powered By Audiosear.ch <img src="{{URL::to('/')}}/image/audiosearch_logo_32.png" />
+		       		</a>
+		        </li>
         		<li><a class="btn btn" href="{{URL::to('/')}}/register">Sign Up</a></li>
         		<li><a class="btn btn-primary" style="background-color: #1ab667;" href="{{URL::to('/')}}/login">Login</a></li>
         		<li style="width: 25px"></li>
@@ -175,6 +185,12 @@
                       <a href="{{URL::to('/')}}/genres">
                         <i class="icon-music-tone-alt icon text-info"></i>
                         <span class="font-bold">Genres</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{{URL::to('/')}}/search">
+                        <i class="fa fa-search"></i>
+                        <span class="font-bold">Search</span>
                       </a>
                     </li>
                     @if(!Auth::guest())

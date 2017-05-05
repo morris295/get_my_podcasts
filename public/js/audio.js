@@ -8,45 +8,26 @@ $(document).ready(function() {
 		token = $('meta[name="csrf-token"]').attr("content"),
 		uid = parseInt($(e.target).closest("a").attr("data-value"));
 		
-		alertify.prompt("Please name this playlist:", function(e, val) {
-			if (e) {
-				
-				var data = {
-					user_id: uid,
-					contents: myPlaylist.playlist,
-					playlist_name: val
-				};
-				
-				alertify.set({
-					labels: {
-						ok: "Yes",
-						cancel: "No"
-					}
-				});
-				
-				alertify.confirm("Mark as the default playlist?", function(e) {
-					if (e) {
-						data.keep_current = 1;
-					} else {
-						data.keep_current = 0;
-					}
-					
-					asynch.sendRequest(endpoint, "POST", token, data)
-					.then(function(result) {
-						console.log("Success!");
-						toastr.success("Success", "Playlist saved.");
-					},
-					function(result) {
-						console.log("Failure! Boo!");
-						toastr.error("Failed", "Playlist not saved.");
-					});
-				});
-			}
-		});
+		dialog.dialog("open");
+		
+		var data = {
+			user_id: uid,
+			contents: myPlaylist.playlist,
+			playlist_name: val
+		};
+		
+		playlist.savePlaylist(data)
+			.then(function(result) {
+				toastr.success("Playlist saved.");
+			},
+			function(err) {
+				console.log(err);
+				toastr.error("Failed to save playlist.");
+			})
 	});
 	
 	$(document).on("click", "#clearPlaylist", function(e) {
-		myPlaylist.playlist.length = 0;
+		playlist.clearPlaylist();
 	});
 	
 	$(document).on("click", "[id^=play-episode]", function(e) {

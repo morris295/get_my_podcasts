@@ -38,6 +38,15 @@ small,
 .label {
   font-weight: bold;
 }
+.list-tools {
+	display: none;
+}
+.playlist-name-item:hover .list-tools {
+	display: inline-block
+}
+div#search-display {
+	display: none !important;
+}
 .badge {
   background-color: #aac4c8;
 }
@@ -1003,6 +1012,9 @@ body.container {
     width: 100%;
     z-index: 1100;
   }
+  div#search-display {
+  	display: inline-block !important;
+  }
   .navbar-fixed-top-xs + * {
     padding-top: 50px !important;
   }
@@ -1152,6 +1164,9 @@ body.container {
   .slimScrollBar,
   .slimScrollRail {
     display: none !important;
+  }
+  .list-tools {
+  	display: inline-block;
   }
 }
 .arrow {

@@ -32,7 +32,7 @@ class PodcastWorker {
 	
 		if ($lastUpdated == null || $interval->days >= 7) {
 				
-			$lastWeek = date ( "Y-m-d", strtotime ( "-7 days" ) );
+			$lastWeek = date ("Y-m-d", strtotime("-7 days"));
 				
 			$topShowsResponse = ApiUtility::getTopShows($lastWeek);
 				
@@ -43,6 +43,12 @@ class PodcastWorker {
 			}
 		} else {
 			$topShows = DbUtility::getTopShows();
+			foreach ($topShows as $show) {
+				$count = DbUtility::getEpisodeCount($show->id);
+				if ($count > 0) {
+					$show->total_episodes = $count;
+				}
+			}
 		}
 	
 		return [
@@ -97,6 +103,7 @@ class PodcastWorker {
 		$image = ($dbPodcast === null)?$wsPodcast["image_files"][0]["url"]["full"]:$dbPodcast->image_url;
 		$colors = ColorThiefUtility::getPrimaryColor($image);
 		$imageCheck = Requests::get($image);
+		$followers = subscription::where("podcast_id", $podcastId)->count();
 
 		if ($imageCheck->status_code !== 200) {
 			$image = URL::to('/') . "/image/play.png";
@@ -111,7 +118,8 @@ class PodcastWorker {
 			"contrast" => $colors["contrast"],
 			"episodes" => $episodes,
 			"podcastId" => $podcastId,
-			"subscribed" => $subscribed
+			"subscribed" => $subscribed,
+			"followers" => $followers
 		];
 		
 	}
